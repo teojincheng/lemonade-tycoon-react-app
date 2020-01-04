@@ -1,8 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Counter from './Counter.js';
 
 function App() {
+
+  var c1 = new Counter();
+  c1.update(55);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +23,7 @@ function App() {
         >
           Learn React
         </a>
+  <div>{c1.displayValue()}</div>
       </header>
     </div>
   );
