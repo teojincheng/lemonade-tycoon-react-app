@@ -1,30 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Counter from './Counter.js';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import OnHandIngredient from "./OnHandIngredient";
+import InformationCard from "./InformationCard";
+import NavgationButton from "./NavigationButton";
+import Button from "./Button";
 
 function App() {
-
-  var c1 = new Counter();
-  c1.update(55);
-
+  let btnOne = new Button("typeA");
+  console.log(btnOne.getType());
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React hi
-        </a>
-  <div>{c1.displayValue()}</div>
-      </header>
+      <OnHandIngredient />
+      <InformationCard />
+      <NavgationButton />
     </div>
   );
 }

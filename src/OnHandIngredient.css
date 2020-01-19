@@ -1,0 +1,9 @@
+.ingredient-block {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-center {
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
