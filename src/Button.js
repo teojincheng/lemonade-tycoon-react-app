@@ -1,10 +1,6 @@
 import React from "react";
-export default class Button {
-  constructor(type = "base") {
-    this.type = type;
-  }
+const Button = ({ children, className }) => {
+  return <div className={className}>{children}</div>;
+};
 
-  getType() {
-    return this.type;
-  }
-}
+export default Button;

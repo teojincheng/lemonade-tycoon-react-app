@@ -7,8 +7,6 @@ import NavgationButton from "./NavigationButton";
 import Button from "./Button";
 
 function App() {
-  let btnOne = new Button("typeA");
-  console.log(btnOne.getType());
   return (
     <div className="App">
       <OnHandIngredient />

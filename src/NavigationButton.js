@@ -1,14 +1,13 @@
 import React from "react";
 import "./NavigationButton.css";
+import Button from "./Button";
 
 function NavgationButton() {
   return (
-    <div>
-      <figure className="navigation-btn">
-        <img src="https://via.placeholder.com/70" alt="" />
-        <figcaption>Recipe</figcaption>
-      </figure>
-    </div>
+    <Button className="navigation-btn">
+      <img src="https://via.placeholder.com/70" alt="" />
+      <span>Recipe</span>
+    </Button>
   );
 }
 
