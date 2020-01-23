@@ -6,7 +6,8 @@ import InformationCard from "./InformationCard";
 import NavgationButton from "./NavigationButton";
 import PlusButton from "./PlusButton";
 import MinusButton from "./MinusButton";
-
+import NumberInput from "./NumberInput";
+import PlusMinusSelection from "./PlusMinusSelection";
 function App() {
   return (
     <div className="App">
@@ -21,9 +22,10 @@ function App() {
           imageSource="https://via.placeholder.com/70"
         />
       </div>
-      <PlusButton />
-      <MinusButton />
-      <InformationCard />
+      <InformationCard>
+        <h3>Supplies</h3>
+        <PlusMinusSelection />
+      </InformationCard>
     </div>
   );
 }

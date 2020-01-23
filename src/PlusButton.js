@@ -4,9 +4,11 @@ import "./PlusButton.css";
 
 const PlusButton = () => {
   return (
-    <Button className="plus-button">
-      <img src={process.env.PUBLIC_URL + "/icons/PlusVector.png"} alt="" />
-    </Button>
+    <div className="vertical-center">
+      <Button className="plus-button">
+        <img src={process.env.PUBLIC_URL + "/icons/PlusVector.png"} alt="" />
+      </Button>
+    </div>
   );
 };
 

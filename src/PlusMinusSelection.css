@@ -1,0 +1,4 @@
+.selection-block {
+  display: flex;
+  flex-direction: row;
+}

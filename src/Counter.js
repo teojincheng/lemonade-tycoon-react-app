@@ -1,5 +1,5 @@
 import React from "react";
-export default class Counter {
+class Counter {
   counterValue = 0;
 
   update(newValue) {
@@ -14,3 +14,4 @@ export default class Counter {
     return <div>{this.getValue()}</div>;
   }
 }
+export default Counter;
