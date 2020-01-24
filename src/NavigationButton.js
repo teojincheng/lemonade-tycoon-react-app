@@ -1,13 +1,12 @@
 import React from "react";
 import "./NavigationButton.css";
-import Button from "./Button";
 
-const NavgationButton = ({ text, imageSource }) => {
+const NavgationButton = ({ text, imageSource, onClickFunction }) => {
   return (
-    <Button className="navigation-btn">
+    <button onClick={onClickFunction} className="navigation-btn">
       <img src={imageSource} alt="" />
       <span>{text}</span>
-    </Button>
+    </button>
   );
 };
 
