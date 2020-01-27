@@ -8,3 +8,9 @@ test('renders learn react link', () => {
   expect(linkElement).toBeInTheDocument();
 });
 */
+
+describe(App, () => {
+  it("can test normally", () => {
+    expect(1).toBe(1);
+  });
+});
