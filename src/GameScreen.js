@@ -4,6 +4,7 @@ import NavgationButton from "./NavigationButton";
 import InformationCard from "./InformationCard";
 import PlusMinusSelection from "./PlusMinusSelection";
 import Timer from "./Timer";
+import Customer from "./Customer";
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class GameScreen extends React.Component {
     this.state = {
       navigationSelection: "",
       startTime: new Date(),
-      elapsedTime: 0
+      elapsedTime: 0,
+      queue: []
     };
   }
 
@@ -34,6 +36,13 @@ class GameScreen extends React.Component {
       (endTime - this.state.startTime) / 1000
     );
     this.setState({ elapsedTime: elapsedTimeInSeconds });
+  };
+
+  testAQueue = () => {
+    let myQueue = [];
+    let CustomerA = new Customer(1, 120);
+    let CustomerB = new Customer(2, 60);
+    let CustomerC = new Customer(3, 70);
   };
 
   render() {

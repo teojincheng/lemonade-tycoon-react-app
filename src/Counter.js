@@ -1,17 +1,19 @@
 import React from "react";
 class Counter {
-  counterValue = 0;
-
-  update(newValue) {
-    this.counterValue = newValue;
+  constructor() {
+    this._counterValue = 0;
   }
 
-  getValue() {
-    return this.counterValue;
+  set counterValue(newValue) {
+    this._counterValue = newValue;
+  }
+
+  get counterValue() {
+    return this._counterValue;
   }
 
   displayValue() {
-    return <div>{this.getValue()}</div>;
+    return <div>{this.counterValue}</div>;
   }
 }
 export default Counter;
