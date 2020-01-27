@@ -2,21 +2,30 @@ import Customer from "./Customer";
 
 let elapsedTime = 0;
 let myQueue = [];
-let increaseCustomerQueueTime = () => {
+
+function increaseCustomerQueueTime() {
   myQueue[0].inQueueTime = elapsedTime;
+}
+
+let increaseEveryCustomerQueueTime = () => {
+  myQueue.forEach(customer => (customer.inQueueTime = elapsedTime));
 };
 
-let increaseTime = () => {
+function increaseTime() {
   if (elapsedTime === 10) {
     return;
   }
   elapsedTime++;
   increaseCustomerQueueTime();
-};
+}
 
-let increaseTimeInInterval = () => {
+function increaseTimeInInterval() {
   setInterval(increaseTime, 1000);
-};
+}
+
+function increaseTimeForWholeQueue() {
+  setInterval(increaseEveryCustomerQueueTime, 1000);
+}
 
 describe("Customer", () => {
   it("customer object is created properly", () => {
@@ -41,5 +50,25 @@ describe("Customer", () => {
     expect(CustomerA.inQueueTime).toBe(10);
   });
 
-  it("can check that the customers time inside the queue can be compared with the time customer is willing to be inside the queue. ", () => {});
+  it("can check that the customer's time inside the queue can be compared with the time customer is willing to be inside the queue. ", () => {
+    let CustomerB = new Customer(1, 60);
+
+    myQueue.push(CustomerB);
+    jest.useFakeTimers();
+    increaseTimeInInterval();
+    jest.advanceTimersByTime(10000);
+    expect(CustomerB.isCanWaitTimeEqualtoInQueueTime()).toBe(false);
+  });
+
+  it("can increase the customer's time inside the queue for every customer", () => {
+    let CustomerA = new Customer(1, 60);
+    let CustomerB = new Customer(2, 120);
+    myQueue.push(CustomerA);
+    myQueue.push(CustomerB);
+    jest.useFakeTimers();
+    increaseEveryCustomerQueueTime();
+    jest.advanceTimersByTime(10000);
+    expect(CustomerA.inQueueTime).toBe(10);
+    expect(CustomerA.inQueueTime).toBe(10);
+  });
 });

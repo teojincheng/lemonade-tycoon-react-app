@@ -20,6 +20,10 @@ class Customer {
   set inQueueTime(value) {
     this._inQueueTime = value;
   }
+
+  isCanWaitTimeEqualtoInQueueTime() {
+    return this._canWaitTime === this._inQueueTime;
+  }
 }
 
 export default Customer;
