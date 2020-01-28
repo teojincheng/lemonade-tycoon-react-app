@@ -3,7 +3,7 @@ import OnHandIngredient from "./OnHandIngredient";
 import NavgationButton from "./NavigationButton";
 import InformationCard from "./InformationCard";
 import PlusMinusSelection from "./PlusMinusSelection";
-import Timer from "./Timer";
+import InternalGame from "./InternalGame";
 import Customer from "./Customer";
 
 class GameScreen extends React.Component {
@@ -13,12 +13,12 @@ class GameScreen extends React.Component {
       navigationSelection: "",
       startTime: new Date(),
       elapsedTime: 0,
-      queue: []
+      arrOfCustomer: [],
+      customerQueue: []
     };
   }
 
   updateSelection = event => {
-    console.log(event);
     this.setState({
       navigationSelection: "hi"
     });
@@ -38,11 +38,32 @@ class GameScreen extends React.Component {
     this.setState({ elapsedTime: elapsedTimeInSeconds });
   };
 
-  testAQueue = () => {
-    let myQueue = [];
-    let CustomerA = new Customer(1, 120);
-    let CustomerB = new Customer(2, 60);
-    let CustomerC = new Customer(3, 70);
+  addCustomerIntoQueue = () => {
+    let CustomerA = new Customer(1, 120, "coolcat.PNG");
+    this.setState({
+      customerQueue: this.state.customerQueue.concat(CustomerA)
+    });
+  };
+
+  componentDidMount() {
+    //let Game = new InternalGame();
+    /*
+    this.setState({
+      arrOfCustomer: Game.createCustomersAndAddIntoArrOfCustomers()
+    });
+    */
+    this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  displayCustomerQueue = () => {
+    const arrToDisplay = this.state.customerQueue.map(customer => (
+      <div>{customer.displayCustomerImage()}</div>
+    ));
+    return arrToDisplay;
   };
 
   render() {
@@ -63,6 +84,7 @@ class GameScreen extends React.Component {
           <h3>Supplies</h3>
           <PlusMinusSelection />
         </InformationCard>
+        {this.displayCustomerQueue()}
         <button onClick={this.updateStartTime}>Start</button>
         <button onClick={this.calculateElapsed}>End</button>
         <span>Elapsed time: {this.state.elapsedTime} </span>

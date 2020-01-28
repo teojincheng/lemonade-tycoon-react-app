@@ -13,7 +13,7 @@ class Counter {
   }
 
   displayValue() {
-    return <div>{this.counterValue}</div>;
+    return <div>{this._counterValue}</div>;
   }
 }
 export default Counter;
