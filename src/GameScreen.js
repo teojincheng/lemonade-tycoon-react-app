@@ -39,19 +39,24 @@ class GameScreen extends React.Component {
   };
 
   addCustomerIntoQueue = () => {
-    let CustomerA = new Customer(1, 120, "coolcat.PNG");
+    if (this.state.arrOfCustomer.length === 0) {
+      return;
+    }
+    let copyOfCustomerArray = [...this.state.arrOfCustomer];
+    let Customer = copyOfCustomerArray.pop();
     this.setState({
-      customerQueue: this.state.customerQueue.concat(CustomerA)
+      customerQueue: this.state.customerQueue.concat(Customer),
+      arrOfCustomer: copyOfCustomerArray
     });
   };
 
   componentDidMount() {
-    //let Game = new InternalGame();
-    /*
+    let Game = new InternalGame();
+
     this.setState({
       arrOfCustomer: Game.createCustomersAndAddIntoArrOfCustomers()
     });
-    */
+
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
   }
 

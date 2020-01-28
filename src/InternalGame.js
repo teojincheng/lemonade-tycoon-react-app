@@ -1,5 +1,4 @@
 import Customer from "./Customer";
-import Queue from "./Queue";
 
 class InternalGame {
   constructor() {
@@ -10,14 +9,10 @@ class InternalGame {
   createCustomersAndAddIntoArrOfCustomers = () => {
     let CustomerA = new Customer(1, 120, "coolcat.PNG");
     let CustomerB = new Customer(2, 300, "dogsunglass.PNG");
-    this._arrOfCustomer.add(CustomerA);
-    this._arrOfCustomer.add(CustomerB);
+    this._arrOfCustomer.push(CustomerA);
+    this._arrOfCustomer.push(CustomerB);
     return this._arrOfCustomer;
   };
-
-  get customerQueue() {
-    return this._customerQueue;
-  }
 }
 
 export default InternalGame;
