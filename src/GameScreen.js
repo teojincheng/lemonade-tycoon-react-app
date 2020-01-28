@@ -10,7 +10,7 @@ class GameScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      navigationSelection: "",
+      navigationSelection: "supplies",
       startTime: new Date(),
       elapsedTime: 0,
       arrOfCustomer: [],
@@ -18,9 +18,9 @@ class GameScreen extends React.Component {
     };
   }
 
-  updateSelection = event => {
+  updateSelection = navSelection => {
     this.setState({
-      navigationSelection: "hi"
+      navigationSelection: navSelection
     });
   };
 
@@ -76,17 +76,28 @@ class GameScreen extends React.Component {
       <div>
         <OnHandIngredient />
         <div className="show-as-row">
-          <button onClick={this.updateSelection} className="navigation-btn">
+          <button
+            onClick={() => this.updateSelection("recipe")}
+            className="navigation-btn"
+          >
             <img src="https://via.placeholder.com/60" />
             <span>Recipes</span>
           </button>
-          <button className="navigation-btn">
+          <button
+            onClick={() => this.updateSelection("supplies")}
+            className="navigation-btn"
+          >
             <img src="https://via.placeholder.com/60" />
             <span>Supplies</span>
           </button>
         </div>
         <InformationCard>
-          <h3>Supplies</h3>
+          {this.state.navigationSelection === "supplies" ? (
+            <h3>Supplies</h3>
+          ) : (
+            <h3>Recipes</h3>
+          )}
+
           <PlusMinusSelection />
         </InformationCard>
         {this.displayCustomerQueue()}
