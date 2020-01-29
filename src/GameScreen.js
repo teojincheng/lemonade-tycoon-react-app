@@ -93,6 +93,10 @@ class GameScreen extends React.Component {
     return arrToDisplay;
   };
 
+  getDataFromSuppliesList = data => {
+    console.log("game screen new lemon: " + data);
+  };
+
   render() {
     return (
       <div>
@@ -128,7 +132,9 @@ class GameScreen extends React.Component {
             {this.state.navigationSelection === "supplies" ? (
               <div>
                 <h3>Supplies</h3>
-                <SuppliesAdjustList />
+                <SuppliesAdjustList
+                  parentCallBack={this.getDataFromSuppliesList}
+                />
               </div>
             ) : (
               <h3>Recipe</h3>

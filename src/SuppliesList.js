@@ -20,9 +20,14 @@ class SuppliesList extends React.Component {
       this.setState({
         ableToAdjust: copyOfAbleToAdjust
       });
+      this.sendDataToGameScreen();
     } else if (userInput.name === "sugar") {
     } else if (userInput.name === "ice") {
     }
+  };
+
+  sendDataToGameScreen = () => {
+    this.props.parentCallBack(this.state.ableToAdjust[0].amount);
   };
 
   renderToAdjust() {
