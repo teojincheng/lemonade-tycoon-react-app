@@ -26,7 +26,7 @@ class SuppliesList extends React.Component {
     this.setState({
       ableToAdjust: copyOfAbleToAdjust
     });
-    this.sendArrOfSuppliesToGameScreen();
+    //this.sendArrOfSuppliesToGameScreen();
   };
 
   sendArrOfSuppliesToGameScreen = () => {
@@ -34,12 +34,18 @@ class SuppliesList extends React.Component {
   };
 
   renderToAdjust() {
-    return this.state.ableToAdjust.map(itemToAdjust => (
+    let arrOfSelection = this.state.ableToAdjust.map(itemToAdjust => (
       <PlusMinusSelection
         name={itemToAdjust.shortname}
         parentCallBack={this.getAmountFromSelection}
       />
     ));
+    return (
+      <div>
+        {arrOfSelection}
+        <button onClick={this.sendArrOfSuppliesToGameScreen}>Buy</button>
+      </div>
+    );
   }
 
   render() {

@@ -25,7 +25,11 @@ class GameScreen extends React.Component {
       recipeOfLemon: 0,
       recipeOfSugar: 0,
       recipeOfIce: 0,
-      sellingPricePerCup: 0
+      sellingPricePerCup: 0,
+      canSelectRecipe: false,
+      canSelectMarketing: false,
+      canSelectSupplies: true,
+      buyButtonIsClicked: false
     };
   }
 
@@ -143,6 +147,7 @@ class GameScreen extends React.Component {
       supplyOfSugar: data[1].amount,
       supplyOfIce: data[2].amount
     });
+    this.updateSelection("recipe");
   };
 
   getDataFromRecipeList = data => {
@@ -203,36 +208,16 @@ class GameScreen extends React.Component {
           <span>Amount of money: </span>
           <span>${this.state.budget}</span>
         </div>
-        <div className="show-as-row">
-          <button
-            className="navigation-btn"
-            onClick={() => this.updateSelection("marketing")}
-          >
-            <img src="https://via.placeholder.com/60" />
-            <span>Marketing</span>
-          </button>
-          <button
-            onClick={() => this.updateSelection("recipe")}
-            className="navigation-btn"
-          >
-            <img src="https://via.placeholder.com/60" />
-            <span>Recipe</span>
-          </button>
-          <button
-            onClick={() => this.updateSelection("supplies")}
-            className="navigation-btn"
-          >
-            <img src="https://via.placeholder.com/60" />
-            <span>Supplies</span>
-          </button>
-        </div>
+
         <div className="show-as-row">
           <InformationCard>
             {this.displayContentInsideInformationCard()}
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
         </div>
-        <button onClick={this.updateStartTime}>Start</button>
+        <button id="start-button" onClick={this.updateStartTime}>
+          Start
+        </button>
         <button onClick={this.calculateElapsed}>End</button>
         <span>Elapsed time: {this.state.elapsedTime} </span>
         <button onClick={this.calculateTotalCost}>show total cost</button>

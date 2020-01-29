@@ -21,6 +21,9 @@ class PlusMinusSelection extends React.Component {
   };
 
   decreaseValue = () => {
+    if (this.state.value === 0) {
+      return;
+    }
     this.setState({
       value: this.state.value - 1
     });
