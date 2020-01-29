@@ -6,6 +6,7 @@ class Customer {
     this._canWaitTime = canWaitTime;
     this._inQueueTime = 0;
     this._imageName = imageName;
+    this._imageSrc = "";
   }
 
   get id() {
@@ -22,6 +23,10 @@ class Customer {
 
   set inQueueTime(value) {
     this._inQueueTime = value;
+  }
+
+  set imageSrc(src) {
+    this._imageSrc = src;
   }
 
   isCanWaitTimeEqualtoInQueueTime() {

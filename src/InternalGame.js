@@ -13,6 +13,10 @@ class InternalGame {
     this._arrOfCustomer.push(CustomerB);
     return this._arrOfCustomer;
   };
+
+  getLengthOfArrOfCustomers = () => {
+    return this._arrOfCustomer.length;
+  };
 }
 
 export default InternalGame;

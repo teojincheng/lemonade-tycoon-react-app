@@ -1,10 +1,10 @@
 import React from "react";
 import OnHandIngredient from "./OnHandIngredient";
-import NavgationButton from "./NavigationButton";
 import InformationCard from "./InformationCard";
 import PlusMinusSelection from "./PlusMinusSelection";
 import InternalGame from "./InternalGame";
-import Customer from "./Customer";
+import axios from "axios";
+import "./NavigationButton.css";
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -50,8 +50,18 @@ class GameScreen extends React.Component {
     });
   };
 
+  fetchUserImages = () => {
+    return axios("https://randomuser.me/api/?results=5");
+  };
+
+  processFetchedData = async () => {
+    let result = await this.fetchUserImages();
+    console.log(result);
+  };
+
   componentDidMount() {
     let Game = new InternalGame();
+    this.processFetchedData();
 
     this.setState({
       arrOfCustomer: Game.createCustomersAndAddIntoArrOfCustomers()
