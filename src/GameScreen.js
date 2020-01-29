@@ -3,7 +3,7 @@ import InformationCard from "./InformationCard";
 import InternalGame from "./InternalGame";
 import SuppliesAdjustList from "./SuppliesList";
 import RecipeAdjustList from "./RecipeList";
-import PlusMinusSelection from "./PlusMinusSelection";
+import PlusMinusSelectionSelling from "./PlusMinusSelectionSelling";
 import axios from "axios";
 import "./NavigationButton.css";
 
@@ -136,7 +136,7 @@ class GameScreen extends React.Component {
       return (
         <div>
           <h3>Marketing</h3>
-          <PlusMinusSelection parentCallBack={this.getSellingPrice} />
+          <PlusMinusSelectionSelling parentCallBack={this.getSellingPrice} />
         </div>
       );
     }
