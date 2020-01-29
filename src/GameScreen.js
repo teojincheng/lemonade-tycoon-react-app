@@ -3,9 +3,10 @@ import OnHandIngredient from "./OnHandIngredient";
 import InformationCard from "./InformationCard";
 import PlusMinusSelection from "./PlusMinusSelection";
 import InternalGame from "./InternalGame";
+import SuppliesAdjustList from "./SuppliesList";
+
 import axios from "axios";
 import "./NavigationButton.css";
-import Customer from "./Customer";
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class GameScreen extends React.Component {
       elapsedTime: 0,
       arrOfCustomer: [],
       customerQueue: [],
-      arrOfPeople: []
+      arrOfPeople: [],
+      supplyOfLemon: 0
     };
   }
 
@@ -62,11 +64,6 @@ class GameScreen extends React.Component {
     this.setState({
       arrOfCustomer: arrOfCustomer
     });
-    //for (let i = 0; i < this.state.arrOfPeople.length; i++) {
-    //arrOfCustomer[i].imageSrc = this.state.arrOfPeople[i].picture.thumbnail;
-    //arrOfCustomer[i].setImageSource("");
-    //console.log(copyOfCustomers[i]);
-    //}
   };
 
   componentDidMount() {
@@ -74,7 +71,6 @@ class GameScreen extends React.Component {
     let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
     axios("https://randomuser.me/api/?results=5").then(response => {
       this.setState({
-        //arrOfCustomer: internalArrOfCustomer
         arrOfCustomer: internalArrOfCustomer
       });
       this.setState({
@@ -101,7 +97,9 @@ class GameScreen extends React.Component {
     return (
       <div>
         <div className="show-as-row">
-          <OnHandIngredient />
+          <span>Lemon: </span>
+          <span className="empty-space"></span>
+          <span>{this.state.supplyOfLemon}</span>
           <OnHandIngredient />
           <OnHandIngredient />
         </div>
@@ -128,14 +126,13 @@ class GameScreen extends React.Component {
         <div className="show-as-row">
           <InformationCard>
             {this.state.navigationSelection === "supplies" ? (
-              <h3>Supplies</h3>
+              <div>
+                <h3>Supplies</h3>
+                <SuppliesAdjustList />
+              </div>
             ) : (
               <h3>Recipe</h3>
             )}
-
-            <PlusMinusSelection />
-            <PlusMinusSelection />
-            <PlusMinusSelection />
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
         </div>

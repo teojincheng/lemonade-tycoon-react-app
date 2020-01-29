@@ -1,3 +1,7 @@
 .show-as-row {
   display: flex;
 }
+
+.empty-space {
+  margin-left: 10px;
+}
