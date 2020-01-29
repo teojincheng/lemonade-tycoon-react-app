@@ -99,6 +99,15 @@ class GameScreen extends React.Component {
     let numbersOfCups = this.calculateNumberOfCupsMadeWithRecipe();
     let costPerCup = totalCost / numbersOfCups;
     console.log("cost per cup: " + costPerCup);
+    return costPerCup;
+  };
+
+  calculateGainOrLoss = () => {
+    let costPerCup = this.calculateCostPerCup();
+    let gainOrLoss =
+      this.state.sellingPricePerCup * this.state.customerQueue.length -
+      costPerCup * this.state.customerQueue.length;
+    console.log("total gain or loss: " + gainOrLoss);
   };
 
   componentDidMount() {
@@ -231,6 +240,7 @@ class GameScreen extends React.Component {
           show number of cups
         </button>
         <button onClick={this.calculateCostPerCup}>show cost per cup</button>
+        <button onClick={this.calculateGainOrLoss}>show gain or loss</button>
       </div>
     );
   }
