@@ -34,13 +34,7 @@ class Customer {
   }
 
   displayCustomerImage() {
-    return (
-      <img
-        className="customer-img"
-        src={process.env.PUBLIC_URL + "/images/" + this._imageName}
-        alt="image"
-      />
-    );
+    return <img className="customer-img" src={this._imageSrc} alt="image" />;
   }
 }
 

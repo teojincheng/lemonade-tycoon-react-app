@@ -5,6 +5,7 @@ import PlusMinusSelection from "./PlusMinusSelection";
 import InternalGame from "./InternalGame";
 import axios from "axios";
 import "./NavigationButton.css";
+import Customer from "./Customer";
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ class GameScreen extends React.Component {
       startTime: new Date(),
       elapsedTime: 0,
       arrOfCustomer: [],
-      customerQueue: []
+      customerQueue: [],
+      arrOfPeople: []
     };
   }
 
@@ -50,21 +52,35 @@ class GameScreen extends React.Component {
     });
   };
 
-  fetchUserImages = () => {
-    return axios("https://randomuser.me/api/?results=5");
-  };
+  setPictureOfCustomer = arrOfCustomer => {
+    let copyOfCustomers = [...arrOfCustomer];
 
-  processFetchedData = async () => {
-    let result = await this.fetchUserImages();
-    console.log(result);
+    for (let i = 0; i < copyOfCustomers.length; i++) {
+      copyOfCustomers[i].imageSrc = this.state.arrOfPeople[i].picture.medium;
+    }
+
+    this.setState({
+      arrOfCustomer: arrOfCustomer
+    });
+    //for (let i = 0; i < this.state.arrOfPeople.length; i++) {
+    //arrOfCustomer[i].imageSrc = this.state.arrOfPeople[i].picture.thumbnail;
+    //arrOfCustomer[i].setImageSource("");
+    //console.log(copyOfCustomers[i]);
+    //}
   };
 
   componentDidMount() {
     let Game = new InternalGame();
-    this.processFetchedData();
-
-    this.setState({
-      arrOfCustomer: Game.createCustomersAndAddIntoArrOfCustomers()
+    let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
+    axios("https://randomuser.me/api/?results=5").then(response => {
+      this.setState({
+        //arrOfCustomer: internalArrOfCustomer
+        arrOfCustomer: internalArrOfCustomer
+      });
+      this.setState({
+        arrOfPeople: response.data.results
+      });
+      this.setPictureOfCustomer(this.state.arrOfCustomer);
     });
 
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
@@ -84,14 +100,22 @@ class GameScreen extends React.Component {
   render() {
     return (
       <div>
-        <OnHandIngredient />
         <div className="show-as-row">
+          <OnHandIngredient />
+          <OnHandIngredient />
+          <OnHandIngredient />
+        </div>
+        <div className="show-as-row">
+          <button className="navigation-btn">
+            <img src="https://via.placeholder.com/60" />
+            <span>Marketing</span>
+          </button>
           <button
             onClick={() => this.updateSelection("recipe")}
             className="navigation-btn"
           >
             <img src="https://via.placeholder.com/60" />
-            <span>Recipes</span>
+            <span>Recipe</span>
           </button>
           <button
             onClick={() => this.updateSelection("supplies")}
@@ -101,16 +125,20 @@ class GameScreen extends React.Component {
             <span>Supplies</span>
           </button>
         </div>
-        <InformationCard>
-          {this.state.navigationSelection === "supplies" ? (
-            <h3>Supplies</h3>
-          ) : (
-            <h3>Recipes</h3>
-          )}
+        <div className="show-as-row">
+          <InformationCard>
+            {this.state.navigationSelection === "supplies" ? (
+              <h3>Supplies</h3>
+            ) : (
+              <h3>Recipe</h3>
+            )}
 
-          <PlusMinusSelection />
-        </InformationCard>
-        {this.displayCustomerQueue()}
+            <PlusMinusSelection />
+            <PlusMinusSelection />
+            <PlusMinusSelection />
+          </InformationCard>
+          <div className="show-as-row">{this.displayCustomerQueue()}</div>
+        </div>
         <button onClick={this.updateStartTime}>Start</button>
         <button onClick={this.calculateElapsed}>End</button>
         <span>Elapsed time: {this.state.elapsedTime} </span>
