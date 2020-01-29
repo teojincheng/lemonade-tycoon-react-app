@@ -1,11 +1,9 @@
 import React from "react";
-import OnHandIngredient from "./OnHandIngredient";
 import InformationCard from "./InformationCard";
-import PlusMinusSelection from "./PlusMinusSelection";
 import InternalGame from "./InternalGame";
 import SuppliesAdjustList from "./SuppliesList";
 import RecipeAdjustList from "./RecipeList";
-
+import PlusMinusSelection from "./PlusMinusSelection";
 import axios from "axios";
 import "./NavigationButton.css";
 
@@ -25,7 +23,8 @@ class GameScreen extends React.Component {
       budget: 100,
       recipeOfLemon: 0,
       recipeOfSugar: 0,
-      recipeOfIce: 0
+      recipeOfIce: 0,
+      sellingPriceOfCup: 0
     };
   }
 
@@ -116,6 +115,33 @@ class GameScreen extends React.Component {
     });
   };
 
+  getSellingPrice = data => {};
+
+  displayContentInsideInformationCard = () => {
+    if (this.state.navigationSelection === "supplies") {
+      return (
+        <div>
+          <h3>Supplies</h3>
+          <SuppliesAdjustList parentCallBack={this.getDataFromSuppliesList} />
+        </div>
+      );
+    } else if (this.state.navigationSelection === "recipe") {
+      return (
+        <div>
+          <h3>Recipe</h3>
+          <RecipeAdjustList parentCallBack={this.getDataFromRecipeList} />
+        </div>
+      );
+    } else if (this.state.navigationSelection === "marketing") {
+      return (
+        <div>
+          <h3>Marketing</h3>
+          <PlusMinusSelection parentCallBack={this.getSellingPrice} />
+        </div>
+      );
+    }
+  };
+
   render() {
     return (
       <div>
@@ -136,7 +162,10 @@ class GameScreen extends React.Component {
           <span>${this.state.budget}</span>
         </div>
         <div className="show-as-row">
-          <button className="navigation-btn">
+          <button
+            className="navigation-btn"
+            onClick={() => this.updateSelection("marketing")}
+          >
             <img src="https://via.placeholder.com/60" />
             <span>Marketing</span>
           </button>
@@ -157,19 +186,7 @@ class GameScreen extends React.Component {
         </div>
         <div className="show-as-row">
           <InformationCard>
-            {this.state.navigationSelection === "supplies" ? (
-              <div>
-                <h3>Supplies</h3>
-                <SuppliesAdjustList
-                  parentCallBack={this.getDataFromSuppliesList}
-                />
-              </div>
-            ) : (
-              <div>
-                <h3>Recipe</h3>
-                <RecipeAdjustList parentCallBack={this.getDataFromRecipeList} />
-              </div>
-            )}
+            {this.displayContentInsideInformationCard()}
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
         </div>
