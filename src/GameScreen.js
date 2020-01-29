@@ -6,6 +6,7 @@ import RecipeAdjustList from "./RecipeList";
 import PlusMinusSelectionSelling from "./PlusMinusSelectionSelling";
 import axios from "axios";
 import "./NavigationButton.css";
+import Constant from "./Constant";
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class GameScreen extends React.Component {
       recipeOfLemon: 0,
       recipeOfSugar: 0,
       recipeOfIce: 0,
-      sellingPriceOfCup: 0
+      sellingPricePerCup: 0
     };
   }
 
@@ -72,6 +73,34 @@ class GameScreen extends React.Component {
     });
   };
 
+  calculateTotalCost = () => {
+    let costOfLemon =
+      Constant.BUYING_PRICE_ONE_LEMON * this.state.supplyOfLemon;
+    let costOfSugar =
+      Constant.BUYING_PRICE_ONE_CUP_SUGAR * this.state.supplyOfSugar;
+    let costOfIce = Constant.BUYING_PRICE_ONE_ICE_CUBE * this.state.supplyOfIce;
+    let totalCost = parseFloat(costOfLemon + costOfSugar + costOfIce).toFixed(
+      2
+    );
+    console.log("total cost " + totalCost);
+    return totalCost;
+  };
+
+  calculateNumberOfCupsMadeWithRecipe = () => {
+    let numbersOfCups = Math.floor(
+      this.state.supplyOfLemon / this.state.recipeOfLemon
+    );
+    console.log("number of cups: " + numbersOfCups);
+    return numbersOfCups;
+  };
+
+  calculateCostPerCup = () => {
+    let totalCost = this.calculateTotalCost();
+    let numbersOfCups = this.calculateNumberOfCupsMadeWithRecipe();
+    let costPerCup = totalCost / numbersOfCups;
+    console.log("cost per cup: " + costPerCup);
+  };
+
   componentDidMount() {
     let Game = new InternalGame();
     let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
@@ -115,7 +144,11 @@ class GameScreen extends React.Component {
     });
   };
 
-  getSellingPrice = data => {};
+  getSellingPrice = userInput => {
+    this.setState({
+      sellingPricePerCup: userInput.amount
+    });
+  };
 
   displayContentInsideInformationCard = () => {
     if (this.state.navigationSelection === "supplies") {
@@ -193,6 +226,11 @@ class GameScreen extends React.Component {
         <button onClick={this.updateStartTime}>Start</button>
         <button onClick={this.calculateElapsed}>End</button>
         <span>Elapsed time: {this.state.elapsedTime} </span>
+        <button onClick={this.calculateTotalCost}>show total cost</button>
+        <button onClick={this.calculateNumberOfCupsMadeWithRecipe}>
+          show number of cups
+        </button>
+        <button onClick={this.calculateCostPerCup}>show cost per cup</button>
       </div>
     );
   }
