@@ -4,6 +4,7 @@ import InformationCard from "./InformationCard";
 import PlusMinusSelection from "./PlusMinusSelection";
 import InternalGame from "./InternalGame";
 import SuppliesAdjustList from "./SuppliesList";
+import RecipeAdjustList from "./RecipeList";
 
 import axios from "axios";
 import "./NavigationButton.css";
@@ -21,7 +22,10 @@ class GameScreen extends React.Component {
       supplyOfLemon: 0,
       supplyOfSugar: 0,
       supplyOfIce: 0,
-      budget: 100
+      budget: 100,
+      recipeOfLemon: 0,
+      recipeOfSugar: 0,
+      recipeOfIce: 0
     };
   }
 
@@ -97,14 +101,18 @@ class GameScreen extends React.Component {
   };
 
   getDataFromSuppliesList = data => {
-    let newLemonAmount = data[0].amount;
-    let newSugarAmount = data[1].amount;
-    let newIceAmount = data[2].amount;
-
     this.setState({
-      supplyOfLemon: newLemonAmount,
-      supplyOfSugar: newSugarAmount,
-      supplyOfIce: newIceAmount
+      supplyOfLemon: data[0].amount,
+      supplyOfSugar: data[1].amount,
+      supplyOfIce: data[2].amount
+    });
+  };
+
+  getDataFromRecipeList = data => {
+    this.setState({
+      recipeOfLemon: data[0].amount,
+      recipeOfSugar: data[1].amount,
+      recipeOfIce: data[2].amount
     });
   };
 
@@ -123,6 +131,9 @@ class GameScreen extends React.Component {
           <span>Ice: </span>
           <span className="empty-space"></span>
           <span>{this.state.supplyOfIce}</span>
+          <span className="empty-space"></span>
+          <span>Amount of money: </span>
+          <span>${this.state.budget}</span>
         </div>
         <div className="show-as-row">
           <button className="navigation-btn">
@@ -154,7 +165,10 @@ class GameScreen extends React.Component {
                 />
               </div>
             ) : (
-              <h3>Recipe</h3>
+              <div>
+                <h3>Recipe</h3>
+                <RecipeAdjustList parentCallBack={this.getDataFromRecipeList} />
+              </div>
             )}
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
