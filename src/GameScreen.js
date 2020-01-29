@@ -18,7 +18,10 @@ class GameScreen extends React.Component {
       arrOfCustomer: [],
       customerQueue: [],
       arrOfPeople: [],
-      supplyOfLemon: 0
+      supplyOfLemon: 0,
+      supplyOfSugar: 0,
+      supplyOfIce: 0,
+      budget: 100
     };
   }
 
@@ -94,7 +97,15 @@ class GameScreen extends React.Component {
   };
 
   getDataFromSuppliesList = data => {
-    console.log("game screen new lemon: " + data);
+    let newLemonAmount = data[0].amount;
+    let newSugarAmount = data[1].amount;
+    let newIceAmount = data[2].amount;
+
+    this.setState({
+      supplyOfLemon: newLemonAmount,
+      supplyOfSugar: newSugarAmount,
+      supplyOfIce: newIceAmount
+    });
   };
 
   render() {
@@ -104,8 +115,14 @@ class GameScreen extends React.Component {
           <span>Lemon: </span>
           <span className="empty-space"></span>
           <span>{this.state.supplyOfLemon}</span>
-          <OnHandIngredient />
-          <OnHandIngredient />
+          <span className="empty-space"></span>
+          <span>Sugar: </span>
+          <span className="empty-space"></span>
+          <span>{this.state.supplyOfSugar}</span>
+          <span className="empty-space"></span>
+          <span>Ice: </span>
+          <span className="empty-space"></span>
+          <span>{this.state.supplyOfIce}</span>
         </div>
         <div className="show-as-row">
           <button className="navigation-btn">

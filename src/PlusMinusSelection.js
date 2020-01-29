@@ -24,6 +24,12 @@ class PlusMinusSelection extends React.Component {
     this.setState({
       value: this.state.value - 1
     });
+
+    let data = {
+      name: this.props.name,
+      amount: this.state.value - 1
+    };
+    this.props.parentCallBack(data);
   };
 
   render() {

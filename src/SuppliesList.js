@@ -17,17 +17,20 @@ class SuppliesList extends React.Component {
     let copyOfAbleToAdjust = [...this.state.ableToAdjust];
     if (userInput.name === "lemon") {
       copyOfAbleToAdjust[0].amount = userInput.amount;
-      this.setState({
-        ableToAdjust: copyOfAbleToAdjust
-      });
-      this.sendDataToGameScreen();
     } else if (userInput.name === "sugar") {
+      copyOfAbleToAdjust[1].amount = userInput.amount;
     } else if (userInput.name === "ice") {
+      copyOfAbleToAdjust[2].amount = userInput.amount;
     }
+
+    this.setState({
+      ableToAdjust: copyOfAbleToAdjust
+    });
+    this.sendArrOfSuppliesToGameScreen();
   };
 
-  sendDataToGameScreen = () => {
-    this.props.parentCallBack(this.state.ableToAdjust[0].amount);
+  sendArrOfSuppliesToGameScreen = () => {
+    this.props.parentCallBack(this.state.ableToAdjust);
   };
 
   renderToAdjust() {
