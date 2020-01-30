@@ -14,8 +14,7 @@
 }
 
 .vertical-center {
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding-top: 1px;
 }
 
 input::-webkit-outer-spin-button,

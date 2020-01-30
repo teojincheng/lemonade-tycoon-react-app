@@ -44,8 +44,8 @@ class PlusMinusSelection extends React.Component {
   render() {
     return (
       <div>
-        <div className="selection-block">
-          <div className="vertical-center">
+        <div className="wrapper">
+          <div>
             <button onClick={this.decreaseValue}>
               <img
                 className="button-img"
@@ -54,11 +54,9 @@ class PlusMinusSelection extends React.Component {
               />
             </button>
           </div>
-
-          <span className="vertical-center">Selling price per cup : </span>
-          <span className="empty-space"></span>
-          <span className="vertical-center">{this.state.value}</span>
-          <div className="vertical-center">
+          <div>Selling price per cup: </div>
+          <div>${this.state.value}</div>
+          <div>
             <button onClick={this.increaseValue}>
               <img
                 className="button-img"
