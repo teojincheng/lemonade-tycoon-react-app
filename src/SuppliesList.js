@@ -9,19 +9,19 @@ class SuppliesList extends React.Component {
         {
           name: "supplies-lemon",
           shortname: "lemon",
-          displayName: "Lemon $0.40 each",
+          displayName: " $0.40 each",
           amount: 0
         },
         {
           name: "supplies-sugar",
           shortname: "sugar",
-          displayName: "Sugar $0.40 per cup",
+          displayName: " $0.40 per cup",
           amount: 0
         },
         {
           name: "supplies-ice",
           shortname: "ice",
-          displayName: "Ice $0.02 per cube",
+          displayName: " $0.02 per cube",
           amount: 0
         }
       ]
@@ -54,6 +54,7 @@ class SuppliesList extends React.Component {
         name={itemToAdjust.shortname}
         displayName={itemToAdjust.displayName}
         parentCallBack={this.getAmountFromSelection}
+        hasIcon="true"
       />
     ));
     return (
