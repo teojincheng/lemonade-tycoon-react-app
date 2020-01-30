@@ -5,7 +5,7 @@ import SuppliesAdjustList from "./SuppliesList";
 import RecipeAdjustList from "./RecipeList";
 import PlusMinusSelectionSelling from "./PlusMinusSelectionSelling";
 import axios from "axios";
-import "./NavigationButton.css";
+import "./GameScreen.css";
 import Constant from "./Constant";
 
 class GameScreen extends React.Component {
@@ -21,7 +21,7 @@ class GameScreen extends React.Component {
       supplyOfLemon: 0,
       supplyOfSugar: 0,
       supplyOfIce: 0,
-      budget: 100,
+      budget: 20,
       recipeOfLemon: 0,
       recipeOfSugar: 0,
       recipeOfIce: 0,
@@ -69,11 +69,7 @@ class GameScreen extends React.Component {
       arrOfCustomer: copyOfCustomerArray
     });
   };
-  /*
-  checkWhetherDayHasStarted = () => {
-    let isDayStarted = this.state.dayStarted;
-  };
-*/
+
   setPictureOfCustomer = arrOfCustomer => {
     let copyOfCustomers = [...arrOfCustomer];
 
@@ -93,7 +89,7 @@ class GameScreen extends React.Component {
     let totalCost = parseFloat(costOfLemon + costOfSugar + costOfIce).toFixed(
       2
     );
-    //console.log("total cost " + totalCost);
+
     return totalCost;
   };
 
@@ -101,38 +97,9 @@ class GameScreen extends React.Component {
     let numbersOfCups = Math.floor(
       this.state.supplyOfLemon / this.state.recipeOfLemon
     );
-    //console.log("number of cups: " + numbersOfCups);
+
     return numbersOfCups;
   };
-
-  /*
-  calculateCostPerCup = () => {
-    console.log("inside cost per cup");
-    console.log("totoal cost: " + this.state.totalCostOfSupplies);
-    console.log("cups made: " + this.state.numbersOfCupsMade);
-    let costPerCup =
-      this.state.totalCostOfSupplies / this.state.numbersOfCupsMade;
-    //console.log("cost per cup: " + costPerCup);
-    return costPerCup;
-  };
-  */
-
-  /*
-  calculateGainOrLoss = () => {
-    let costPerCup = this.calculateCostPerCup();
-    let gainOrLoss =
-      this.state.sellingPricePerCup * this.state.customerQueue.length -
-      costPerCup * this.state.customerQueue.length;
-    //console.log("total gain or loss: " + gainOrLoss);
-  };
-  */
-  /*
-  makeDayStarted = () => {
-    this.setState({
-      dayStarted: true
-    });
-  };
-  */
 
   componentDidMount() {
     let Game = new InternalGame();
@@ -146,8 +113,6 @@ class GameScreen extends React.Component {
       });
       this.setPictureOfCustomer(this.state.arrOfCustomer);
     });
-
-    //this.timerID = setInterval(() => this.checkWhetherDayHasStarted(), 1000);
   }
 
   componentWillUnmount() {
@@ -326,15 +291,27 @@ class GameScreen extends React.Component {
     return (
       <div>
         <div className="show-as-row">
-          <span>Lemon: </span>
+          <img
+            className="icon-image"
+            src={process.env.PUBLIC_URL + "/icons/lemonIcon.png"}
+            alt="lemon icon"
+          />
           <span className="empty-space"></span>
           <span>{this.state.supplyOfLemon}</span>
           <span className="empty-space"></span>
-          <span>Sugar: </span>
+          <img
+            className="icon-image"
+            src={process.env.PUBLIC_URL + "/icons/sugarIcon.png"}
+            alt="lemon icon"
+          />
           <span className="empty-space"></span>
           <span>{this.state.supplyOfSugar}</span>
           <span className="empty-space"></span>
-          <span>Ice: </span>
+          <img
+            className="icon-image"
+            src={process.env.PUBLIC_URL + "/icons/iceIcon.png"}
+            alt="lemon icon"
+          />
           <span className="empty-space"></span>
           <span>{this.state.supplyOfIce}</span>
           <span className="empty-space"></span>

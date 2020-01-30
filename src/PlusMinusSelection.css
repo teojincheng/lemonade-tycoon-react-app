@@ -17,6 +17,10 @@
   padding-top: 1px;
 }
 
+.icon-image {
+  width: 30px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
