@@ -165,6 +165,20 @@ class GameScreen extends React.Component {
 
   //from selection of supplies
   getDataFromSuppliesList = data => {
+    let inputValidationMsg = "";
+    if (data[0].amount === 0) {
+      inputValidationMsg += "You must buy at least 1 lemon";
+    } else if (data[1].amount === 0) {
+      inputValidationMsg += "You must buy at least 1 sugar";
+    } else if (data[2].amount === 0) {
+      inputValidationMsg += "You must buy at least 1 ice";
+    }
+
+    if (inputValidationMsg.length !== 0) {
+      alert(inputValidationMsg);
+      return;
+    }
+
     let totalCost = this.calculateTotalCost(data);
     if (totalCost > this.state.budget) {
       alert("The supplies you bought exceed budget");
@@ -186,6 +200,15 @@ class GameScreen extends React.Component {
     let amountOfLemon = data[0].amount;
     let amountOfSugar = data[1].amount;
     let amountOfIce = data[2].amount;
+    let inputValidationMsg = "";
+    if (amountOfLemon === 0) {
+      inputValidationMsg += "You must set at least 1 lemon";
+    }
+
+    if (inputValidationMsg.length !== 0) {
+      alert(inputValidationMsg);
+      return;
+    }
 
     let message = "";
 
@@ -229,17 +252,29 @@ class GameScreen extends React.Component {
       "visible";
   };
 
+  removeSupplyOfRawIngredientAfterSale = () => {
+    this.setState({
+      supplyOfLemon: this.state.supplyOfLemon - this.state.recipeOfLemon,
+      supplyOfIce: this.state.supplyOfIce - this.state.recipeOfIce,
+      supplyOfSugar: this.state.supplyOfSugar - this.state.recipeOfSugar
+    });
+  };
+
   removeCustomerFromQueue = () => {
     let copyOfCustomerQueue = [...this.state.customerQueue];
     copyOfCustomerQueue.shift();
     let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
     let profitUpdated = this.state.profit + profitOfOneSale;
     let profitToGiveState = parseFloat(profitUpdated.toFixed(2));
+    this.removeSupplyOfRawIngredientAfterSale();
     this.setState({
       customerQueue: copyOfCustomerQueue,
       profit: profitToGiveState
     });
   };
+
+  // after day has started. keep checking if there are customers in the queue.
+  // can also check if number of cups made less than number of customers in the queue.
 
   checkWhetherCustomerQueueIsEmpty = () => {
     if (this.state.customerQueue.length === 0) {
