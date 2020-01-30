@@ -9,3 +9,7 @@
 #start-button {
   visibility: hidden;
 }
+
+.profit-fields {
+  visibility: hidden;
+}

@@ -33,7 +33,8 @@ class GameScreen extends React.Component {
       numbersOfCupsMade: 0,
       totalCostOfSupplies: 0,
       costPerCup: 0,
-      dayStarted: false
+      dayStarted: false,
+      profit: 0
     };
   }
 
@@ -151,6 +152,7 @@ class GameScreen extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.timerID);
+    clearInterval(this.timerRemoveCustomer);
   }
 
   displayCustomerQueue = () => {
@@ -220,13 +222,21 @@ class GameScreen extends React.Component {
     });
     //document.querySelector("#start-button").disabled = false;
     document.getElementById("start-button").style.visibility = "visible";
+    document.getElementsByClassName("profit-fields")[0].style.visibility =
+      "visible";
+    document.getElementsByClassName("profit-fields")[1].style.visibility =
+      "visible";
   };
 
   removeCustomerFromQueue = () => {
     let copyOfCustomerQueue = [...this.state.customerQueue];
     copyOfCustomerQueue.shift();
+    let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
+    let profitUpdated = this.state.profit + profitOfOneSale;
+    let profitToGiveState = parseFloat(profitUpdated.toFixed(2));
     this.setState({
-      customerQueue: copyOfCustomerQueue
+      customerQueue: copyOfCustomerQueue,
+      profit: profitToGiveState
     });
   };
   AddCustomerPeriodically = () => {
@@ -280,8 +290,11 @@ class GameScreen extends React.Component {
           <span className="empty-space"></span>
           <span>{this.state.supplyOfIce}</span>
           <span className="empty-space"></span>
-          <span>Amount of money: </span>
+          <span>Budget: </span>
           <span>${this.state.budget}</span>
+          <span className="empty-space"></span>
+          <span className="profit-fields">Profit: </span>
+          <span className="profit-fields">$ {this.state.profit}</span>
         </div>
 
         <div className="show-as-row">
