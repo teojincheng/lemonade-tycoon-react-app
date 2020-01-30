@@ -58,6 +58,7 @@ class GameScreen extends React.Component {
     this.setState({ elapsedTime: elapsedTimeInSeconds });
   };
 
+  // add an internal array of customers into a queue
   addCustomerIntoQueue = () => {
     if (this.state.arrOfCustomer.length === 0) {
       return;
@@ -70,6 +71,7 @@ class GameScreen extends React.Component {
     });
   };
 
+  //when axios call to api is done, call this function to set the image of every customer
   setPictureOfCustomer = arrOfCustomer => {
     let copyOfCustomers = [...arrOfCustomer];
 
@@ -128,14 +130,19 @@ class GameScreen extends React.Component {
     return arrToDisplay;
   };
 
-  //from selection of supplies
+  //after user has input the supplies to buy for the day, get data from the
+  //children component
+  //refactor
   getDataFromSuppliesList = data => {
     let inputValidationMsg = "";
-    if (data[0].amount === 0) {
+    let amountOfLemon = data[0].amount;
+    let amountOfSugar = data[1].amount;
+    let amountOfIce = data[2].amount;
+    if (amountOfLemon === 0) {
       inputValidationMsg += "You must buy at least 1 lemon";
-    } else if (data[1].amount === 0) {
-      inputValidationMsg += "You must buy at least 1 sugar";
-    } else if (data[2].amount === 0) {
+    } else if (amountOfSugar === 0) {
+      inputValidationMsg += "You must buy at least 1 cup of sugar";
+    } else if (amountOfIce === 0) {
       inputValidationMsg += "You must buy at least 1 ice";
     }
 
@@ -160,7 +167,8 @@ class GameScreen extends React.Component {
     this.updateSelection("recipe");
   };
 
-  //from selection of recipe
+  //after user has input the recipe for each cup. get data from children component
+  //refactor?
   getDataFromRecipeList = data => {
     let amountOfLemon = data[0].amount;
     let amountOfSugar = data[1].amount;
@@ -190,7 +198,6 @@ class GameScreen extends React.Component {
       return;
     }
 
-    //let costPerCup = this.calculateCostPerCup();
     this.setState({
       recipeOfLemon: data[0].amount,
       recipeOfSugar: data[1].amount,
@@ -204,12 +211,12 @@ class GameScreen extends React.Component {
     this.updateSelection("marketing");
   };
 
+  //after user has input the selling price for a cup, get the data from the children component
   getSellingPrice = userInput => {
     this.setState({
       sellingPricePerCup: userInput,
       navigationSelection: "startDay"
     });
-    //document.querySelector("#start-button").disabled = false;
     document.getElementById("start-button").style.visibility = "visible";
     document.getElementsByClassName("profit-fields")[0].style.visibility =
       "visible";
@@ -217,6 +224,7 @@ class GameScreen extends React.Component {
       "visible";
   };
 
+  //after the sale of each cup, minus the ingredients from the supply.
   removeSupplyOfRawIngredientAfterSale = () => {
     this.setState({
       supplyOfLemon: this.state.supplyOfLemon - this.state.recipeOfLemon,
@@ -225,6 +233,7 @@ class GameScreen extends React.Component {
     });
   };
 
+  //
   removeCustomerFromQueue = () => {
     let copyOfCustomerQueue = [...this.state.customerQueue];
     copyOfCustomerQueue.shift();
@@ -247,6 +256,7 @@ class GameScreen extends React.Component {
     }
   };
 
+  //after user has started the day, add customers into the queue
   AddCustomerPeriodically = () => {
     document.getElementById("start-button").style.visibility = "hidden";
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
@@ -260,6 +270,8 @@ class GameScreen extends React.Component {
     );
   };
 
+  //depending on what the user has done, for example after buying supplies, display the screen to
+  //set the recipe for each cup.
   displayContentInsideInformationCard = () => {
     if (this.state.navigationSelection === "supplies") {
       return (
