@@ -30,7 +30,9 @@ class GameScreen extends React.Component {
       canSelectMarketing: false,
       canSelectSupplies: true,
       buyButtonIsClicked: false,
-      numbersOfCupsMade: 0
+      numbersOfCupsMade: 0,
+      totalCostOfSupplies: 0,
+      costPerCup: 0
     };
   }
 
@@ -98,13 +100,13 @@ class GameScreen extends React.Component {
   };
 
   calculateCostPerCup = () => {
-    let totalCost = this.calculateTotalCost();
-    let numbersOfCups = this.calculateNumberOfCupsMadeWithRecipe();
-    let costPerCup = totalCost / numbersOfCups;
+    let costPerCup =
+      this.state.totalCostOfSupplies / this.state.numbersOfCupsMade;
     //console.log("cost per cup: " + costPerCup);
     return costPerCup;
   };
 
+  /*
   calculateGainOrLoss = () => {
     let costPerCup = this.calculateCostPerCup();
     let gainOrLoss =
@@ -112,6 +114,7 @@ class GameScreen extends React.Component {
       costPerCup * this.state.customerQueue.length;
     //console.log("total gain or loss: " + gainOrLoss);
   };
+  */
 
   componentDidMount() {
     let Game = new InternalGame();
@@ -125,12 +128,10 @@ class GameScreen extends React.Component {
       });
       this.setPictureOfCustomer(this.state.arrOfCustomer);
     });
-
-    this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    //clearInterval(this.timerID);
   }
 
   displayCustomerQueue = () => {
@@ -152,7 +153,8 @@ class GameScreen extends React.Component {
       supplyOfLemon: data[0].amount,
       supplyOfSugar: data[1].amount,
       supplyOfIce: data[2].amount,
-      budget: this.state.budget - totalCost
+      budget: this.state.budget - totalCost,
+      totalCostOfSupplies: totalCost
     });
     this.updateSelection("recipe");
   };
@@ -178,11 +180,13 @@ class GameScreen extends React.Component {
       return;
     }
 
+    let costPerCup = this.calculateCostPerCup();
     this.setState({
       recipeOfLemon: data[0].amount,
       recipeOfSugar: data[1].amount,
       recipeOfIce: data[2].amount,
-      numbersOfCupsMade: this.state.supplyOfSugar / amountOfLemon
+      numbersOfCupsMade: this.state.supplyOfSugar / amountOfLemon,
+      costPerCup: costPerCup
     });
 
     this.updateSelection("marketing");
@@ -190,7 +194,7 @@ class GameScreen extends React.Component {
 
   getSellingPrice = userInput => {
     this.setState({
-      sellingPricePerCup: userInput.amount
+      sellingPricePerCup: userInput
     });
   };
 
@@ -214,7 +218,6 @@ class GameScreen extends React.Component {
         <div>
           <h3>Marketing</h3>
           <PlusMinusSelectionSelling parentCallBack={this.getSellingPrice} />
-          <button>Set Price</button>
         </div>
       );
     }
@@ -251,12 +254,6 @@ class GameScreen extends React.Component {
         </button>
         <button onClick={this.calculateElapsed}>End</button>
         <span>Elapsed time: {this.state.elapsedTime} </span>
-        <button onClick={this.calculateTotalCost}>show total cost</button>
-        <button onClick={this.calculateNumberOfCupsMadeWithRecipe}>
-          show number of cups
-        </button>
-        <button onClick={this.calculateCostPerCup}>show cost per cup</button>
-        <button onClick={this.calculateGainOrLoss}>show gain or loss</button>
       </div>
     );
   }
