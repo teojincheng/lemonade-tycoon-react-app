@@ -5,3 +5,7 @@
 .empty-space {
   margin-left: 10px;
 }
+
+#start-button {
+  visibility: hidden;
+}

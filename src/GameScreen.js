@@ -32,7 +32,8 @@ class GameScreen extends React.Component {
       buyButtonIsClicked: false,
       numbersOfCupsMade: 0,
       totalCostOfSupplies: 0,
-      costPerCup: 0
+      costPerCup: 0,
+      dayStarted: false
     };
   }
 
@@ -68,6 +69,10 @@ class GameScreen extends React.Component {
     });
   };
 
+  checkWhetherDayHasStarted = () => {
+    let isDayStarted = this.state.dayStarted;
+  };
+
   setPictureOfCustomer = arrOfCustomer => {
     let copyOfCustomers = [...arrOfCustomer];
 
@@ -99,12 +104,17 @@ class GameScreen extends React.Component {
     return numbersOfCups;
   };
 
+  /*
   calculateCostPerCup = () => {
+    console.log("inside cost per cup");
+    console.log("totoal cost: " + this.state.totalCostOfSupplies);
+    console.log("cups made: " + this.state.numbersOfCupsMade);
     let costPerCup =
       this.state.totalCostOfSupplies / this.state.numbersOfCupsMade;
     //console.log("cost per cup: " + costPerCup);
     return costPerCup;
   };
+  */
 
   /*
   calculateGainOrLoss = () => {
@@ -115,6 +125,11 @@ class GameScreen extends React.Component {
     //console.log("total gain or loss: " + gainOrLoss);
   };
   */
+  makeDayStarted = () => {
+    this.setState({
+      dayStarted: true
+    });
+  };
 
   componentDidMount() {
     let Game = new InternalGame();
@@ -128,10 +143,12 @@ class GameScreen extends React.Component {
       });
       this.setPictureOfCustomer(this.state.arrOfCustomer);
     });
+
+    //this.timerID = setInterval(() => this.checkWhetherDayHasStarted(), 1000);
   }
 
   componentWillUnmount() {
-    //clearInterval(this.timerID);
+    clearInterval(this.timerID);
   }
 
   displayCustomerQueue = () => {
@@ -180,13 +197,15 @@ class GameScreen extends React.Component {
       return;
     }
 
-    let costPerCup = this.calculateCostPerCup();
+    //let costPerCup = this.calculateCostPerCup();
     this.setState({
       recipeOfLemon: data[0].amount,
       recipeOfSugar: data[1].amount,
       recipeOfIce: data[2].amount,
-      numbersOfCupsMade: this.state.supplyOfSugar / amountOfLemon,
-      costPerCup: costPerCup
+      numbersOfCupsMade: this.state.supplyOfLemon / amountOfLemon,
+      costPerCup:
+        this.state.totalCostOfSupplies /
+        (this.state.supplyOfLemon / amountOfLemon)
     });
 
     this.updateSelection("marketing");
@@ -197,7 +216,13 @@ class GameScreen extends React.Component {
       sellingPricePerCup: userInput,
       navigationSelection: "startDay"
     });
-    document.querySelector("#start-button").disabled = false;
+    //document.querySelector("#start-button").disabled = false;
+    document.getElementById("start-button").style.visibility = "visible";
+  };
+
+  doSomethingPeriodically = () => {
+    console.log("day has started");
+    this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
   };
 
   displayContentInsideInformationCard = () => {
@@ -253,8 +278,8 @@ class GameScreen extends React.Component {
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
         </div>
-        <button id="start-button" onClick={this.updateStartTime} disabled>
-          Start
+        <button id="start-button" onClick={this.doSomethingPeriodically}>
+          Start Day
         </button>
         <button onClick={this.calculateElapsed}>End</button>
       </div>
