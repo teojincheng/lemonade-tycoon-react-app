@@ -20,6 +20,9 @@ class PlusMinusSelection extends React.Component {
   };
 
   decreaseValue = () => {
+    if (this.state.value === 0) {
+      return;
+    }
     this.setState({
       value: parseFloat((this.state.value - 0.1).toFixed(2))
     });

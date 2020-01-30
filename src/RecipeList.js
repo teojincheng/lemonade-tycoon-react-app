@@ -27,7 +27,7 @@ class RecipeList extends React.Component {
     this.setState({
       ableToAdjust: copyOfAbleToAdjust
     });
-    this.sendArrOfRecipeToGameScreen();
+    //this.sendArrOfRecipeToGameScreen();
   };
 
   sendArrOfRecipeToGameScreen = () => {
@@ -35,12 +35,18 @@ class RecipeList extends React.Component {
   };
 
   renderToAdjust() {
-    return this.state.ableToAdjust.map(itemToAdjust => (
+    let arrOfSelection = this.state.ableToAdjust.map(itemToAdjust => (
       <PlusMinusSelection
         name={itemToAdjust.shortname}
         parentCallBack={this.getRecipeAmount}
       />
     ));
+    return (
+      <div>
+        {arrOfSelection}
+        <button onClick={this.sendArrOfRecipeToGameScreen}>Set Recipe</button>
+      </div>
+    );
   }
 
   render() {
