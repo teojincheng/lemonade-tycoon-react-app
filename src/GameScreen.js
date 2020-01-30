@@ -153,6 +153,7 @@ class GameScreen extends React.Component {
   componentWillUnmount() {
     clearInterval(this.timerID);
     clearInterval(this.timerRemoveCustomer);
+    clearInterval(this.timerToCheckCustomerQueue);
   }
 
   displayCustomerQueue = () => {
@@ -239,11 +240,23 @@ class GameScreen extends React.Component {
       profit: profitToGiveState
     });
   };
+
+  checkWhetherCustomerQueueIsEmpty = () => {
+    if (this.state.customerQueue.length === 0) {
+      clearInterval(this.timerRemoveCustomer);
+    }
+  };
+
   AddCustomerPeriodically = () => {
+    document.getElementById("start-button").style.visibility = "hidden";
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
     this.timerRemoveCustomer = setInterval(
       () => this.removeCustomerFromQueue(),
       5000
+    );
+    this.timerToCheckCustomerQueue = setInterval(
+      () => this.checkWhetherCustomerQueueIsEmpty(),
+      1000
     );
   };
 
