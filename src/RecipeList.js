@@ -7,9 +7,19 @@ class RecipeList extends React.Component {
 
     this.state = {
       ableToAdjust: [
-        { name: "recipe-lemon", shortname: "lemon", amount: 0 },
-        { name: "recipe-sugar", shortname: "sugar", amount: 0 },
-        { name: "recipe-ice", shortname: "ice", amount: 0 }
+        {
+          name: "recipe-lemon",
+          shortname: "lemon",
+          displayName: "Lemon",
+          amount: 0
+        },
+        {
+          name: "recipe-sugar",
+          shortname: "sugar",
+          displayName: "Sugar",
+          amount: 0
+        },
+        { name: "recipe-ice", shortname: "ice", displayName: "Ice", amount: 0 }
       ]
     };
   }
@@ -38,6 +48,7 @@ class RecipeList extends React.Component {
     let arrOfSelection = this.state.ableToAdjust.map(itemToAdjust => (
       <PlusMinusSelection
         name={itemToAdjust.shortname}
+        displayName={itemToAdjust.displayName}
         parentCallBack={this.getRecipeAmount}
       />
     ));

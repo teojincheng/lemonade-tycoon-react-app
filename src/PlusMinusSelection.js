@@ -37,19 +37,19 @@ class PlusMinusSelection extends React.Component {
 
   render() {
     return (
-      <div className="selection-block">
-        <button onClick={this.decreaseValue}>
-          <img
-            className="button-img"
-            src={process.env.PUBLIC_URL + "/icons/minus-icon.png"}
-            alt=""
-          />
-        </button>
-
-        <span className="vertical-center">{this.props.name}: </span>
-        <span className="empty-space"></span>
-        <span className="vertical-center">{this.state.value}</span>
-        <div className="vertical-center">
+      <div className="wrapper">
+        <div>
+          <button onClick={this.decreaseValue}>
+            <img
+              className="button-img"
+              src={process.env.PUBLIC_URL + "/icons/minus-icon.png"}
+              alt=""
+            />
+          </button>
+        </div>
+        <div>{this.props.displayName}:</div>
+        <div>{this.state.value}</div>
+        <div>
           <button onClick={this.increaseValue}>
             <img
               className="button-img"

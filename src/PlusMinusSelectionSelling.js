@@ -1,5 +1,5 @@
 import React from "react";
-import "./PlusMinusSelection.css";
+import "./PlusMinusSelectionSelling.css";
 
 class PlusMinusSelection extends React.Component {
   constructor(props) {
@@ -45,13 +45,15 @@ class PlusMinusSelection extends React.Component {
     return (
       <div>
         <div className="selection-block">
-          <button onClick={this.decreaseValue}>
-            <img
-              className="button-img"
-              src={process.env.PUBLIC_URL + "/icons/minus-icon.png"}
-              alt=""
-            />
-          </button>
+          <div className="vertical-center">
+            <button onClick={this.decreaseValue}>
+              <img
+                className="button-img"
+                src={process.env.PUBLIC_URL + "/icons/minus-icon.png"}
+                alt=""
+              />
+            </button>
+          </div>
 
           <span className="vertical-center">Selling price per cup : </span>
           <span className="empty-space"></span>

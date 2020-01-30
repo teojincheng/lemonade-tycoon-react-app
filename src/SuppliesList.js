@@ -6,9 +6,24 @@ class SuppliesList extends React.Component {
 
     this.state = {
       ableToAdjust: [
-        { name: "supplies-lemon", shortname: "lemon", amount: 0 },
-        { name: "supplies-sugar", shortname: "sugar", amount: 0 },
-        { name: "supplies-ice", shortname: "ice", amount: 0 }
+        {
+          name: "supplies-lemon",
+          shortname: "lemon",
+          displayName: "Lemon $0.40 each",
+          amount: 0
+        },
+        {
+          name: "supplies-sugar",
+          shortname: "sugar",
+          displayName: "Sugar $0.40 per cup",
+          amount: 0
+        },
+        {
+          name: "supplies-ice",
+          shortname: "ice",
+          displayName: "Ice $0.02 per cube",
+          amount: 0
+        }
       ]
     };
   }
@@ -37,6 +52,7 @@ class SuppliesList extends React.Component {
     let arrOfSelection = this.state.ableToAdjust.map(itemToAdjust => (
       <PlusMinusSelection
         name={itemToAdjust.shortname}
+        displayName={itemToAdjust.displayName}
         parentCallBack={this.getAmountFromSelection}
       />
     ));
