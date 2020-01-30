@@ -68,11 +68,11 @@ class GameScreen extends React.Component {
       arrOfCustomer: copyOfCustomerArray
     });
   };
-
+  /*
   checkWhetherDayHasStarted = () => {
     let isDayStarted = this.state.dayStarted;
   };
-
+*/
   setPictureOfCustomer = arrOfCustomer => {
     let copyOfCustomers = [...arrOfCustomer];
 
@@ -125,11 +125,13 @@ class GameScreen extends React.Component {
     //console.log("total gain or loss: " + gainOrLoss);
   };
   */
+  /*
   makeDayStarted = () => {
     this.setState({
       dayStarted: true
     });
   };
+  */
 
   componentDidMount() {
     let Game = new InternalGame();
@@ -220,9 +222,19 @@ class GameScreen extends React.Component {
     document.getElementById("start-button").style.visibility = "visible";
   };
 
-  doSomethingPeriodically = () => {
-    console.log("day has started");
+  removeCustomerFromQueue = () => {
+    let copyOfCustomerQueue = [...this.state.customerQueue];
+    copyOfCustomerQueue.shift();
+    this.setState({
+      customerQueue: copyOfCustomerQueue
+    });
+  };
+  AddCustomerPeriodically = () => {
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
+    this.timerRemoveCustomer = setInterval(
+      () => this.removeCustomerFromQueue(),
+      5000
+    );
   };
 
   displayContentInsideInformationCard = () => {
@@ -278,10 +290,9 @@ class GameScreen extends React.Component {
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
         </div>
-        <button id="start-button" onClick={this.doSomethingPeriodically}>
+        <button id="start-button" onClick={this.AddCustomerPeriodically}>
           Start Day
         </button>
-        <button onClick={this.calculateElapsed}>End</button>
       </div>
     );
   }
