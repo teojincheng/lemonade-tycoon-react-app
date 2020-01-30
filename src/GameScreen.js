@@ -21,7 +21,7 @@ class GameScreen extends React.Component {
       supplyOfLemon: 0,
       supplyOfSugar: 0,
       supplyOfIce: 0,
-      budget: 20,
+      budget: 10,
       recipeOfLemon: 0,
       recipeOfSugar: 0,
       recipeOfIce: 0,
