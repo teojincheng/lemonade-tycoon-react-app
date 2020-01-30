@@ -194,8 +194,10 @@ class GameScreen extends React.Component {
 
   getSellingPrice = userInput => {
     this.setState({
-      sellingPricePerCup: userInput
+      sellingPricePerCup: userInput,
+      navigationSelection: "startDay"
     });
+    document.querySelector("#start-button").disabled = false;
   };
 
   displayContentInsideInformationCard = () => {
@@ -220,6 +222,8 @@ class GameScreen extends React.Component {
           <PlusMinusSelectionSelling parentCallBack={this.getSellingPrice} />
         </div>
       );
+    } else if (this.state.navigationSelection === "startDay") {
+      return <div>Press Start Button below</div>;
     }
   };
 
@@ -249,11 +253,10 @@ class GameScreen extends React.Component {
           </InformationCard>
           <div className="show-as-row">{this.displayCustomerQueue()}</div>
         </div>
-        <button id="start-button" onClick={this.updateStartTime}>
+        <button id="start-button" onClick={this.updateStartTime} disabled>
           Start
         </button>
         <button onClick={this.calculateElapsed}>End</button>
-        <span>Elapsed time: {this.state.elapsedTime} </span>
       </div>
     );
   }
