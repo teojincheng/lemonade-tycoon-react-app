@@ -54,7 +54,7 @@ class SuppliesList extends React.Component {
         name={itemToAdjust.shortname}
         displayName={itemToAdjust.displayName}
         parentCallBack={this.getAmountFromSelection}
-        hasIcon="true"
+        hasCost="true"
       />
     ));
     return (

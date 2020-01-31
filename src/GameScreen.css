@@ -1,3 +1,11 @@
 .icon-image {
   width: 30px;
 }
+
+.empty-space {
+  margin-left: 10px;
+}
+
+.show-as-row {
+  text-align: center;
+}

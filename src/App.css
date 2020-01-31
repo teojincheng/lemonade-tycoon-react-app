@@ -1,11 +1,3 @@
-.show-as-row {
-  display: flex;
-}
-
-.empty-space {
-  margin-left: 10px;
-}
-
 #start-button {
   visibility: hidden;
 }
@@ -13,5 +5,3 @@
 .profit-fields {
   visibility: hidden;
 }
-
-

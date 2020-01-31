@@ -50,6 +50,7 @@ class RecipeList extends React.Component {
         name={itemToAdjust.shortname}
         displayName={itemToAdjust.displayName}
         parentCallBack={this.getRecipeAmount}
+        hasCost="false"
       />
     ));
     return (

@@ -333,7 +333,7 @@ class GameScreen extends React.Component {
           <span>{this.state.supplyOfIce}</span>
           <span className="empty-space"></span>
           <span>Budget: </span>
-          <span>${this.state.budget}</span>
+          <span>${this.state.budget.toFixed(2)}</span>
           <span className="empty-space"></span>
           <span className="profit-fields">Profit: </span>
           <span className="profit-fields">$ {this.state.profit}</span>
@@ -343,11 +343,11 @@ class GameScreen extends React.Component {
           <InformationCard>
             {this.displayContentInsideInformationCard()}
           </InformationCard>
-          <div className="show-as-row">{this.displayCustomerQueue()}</div>
+          <div>{this.displayCustomerQueue()}</div>
+          <button id="start-button" onClick={this.AddCustomerPeriodically}>
+            Start Day
+          </button>
         </div>
-        <button id="start-button" onClick={this.AddCustomerPeriodically}>
-          Start Day
-        </button>
       </div>
     );
   }

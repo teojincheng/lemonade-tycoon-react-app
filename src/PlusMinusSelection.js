@@ -72,6 +72,40 @@ class PlusMinusSelection extends React.Component {
     }
   }
 
+  renderIconOnly() {
+    if (this.props.name === "lemon") {
+      return (
+        <div>
+          <img
+            className="icon-image"
+            src={process.env.PUBLIC_URL + "/icons/lemonIcon.png"}
+            alt="lemon icon"
+          />
+        </div>
+      );
+    } else if (this.props.name === "sugar") {
+      return (
+        <div>
+          <img
+            className="icon-image"
+            src={process.env.PUBLIC_URL + "/icons/sugarIcon.png"}
+            alt="sugar icon"
+          />
+        </div>
+      );
+    } else if (this.props.name === "ice") {
+      return (
+        <div>
+          <img
+            className="icon-image"
+            src={process.env.PUBLIC_URL + "/icons/iceIcon.png"}
+            alt="ice icon"
+          />
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
       <div className="wrapper">
@@ -85,9 +119,9 @@ class PlusMinusSelection extends React.Component {
           </button>
         </div>
         <div>
-          {this.props.hasIcon === "true"
+          {this.props.hasCost === "true"
             ? this.renderDisplayName()
-            : this.props.displayName}
+            : this.renderIconOnly()}
         </div>
         <div className="vertical-center">{this.state.value}</div>
         <div>
