@@ -258,6 +258,9 @@ class GameScreen extends React.Component {
 
   //after user has started the day, add customers into the queue
   AddCustomerPeriodically = () => {
+    this.setState({
+      navigationSelection: "dayStarted"
+    });
     document.getElementById("start-button").style.visibility = "hidden";
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
     this.timerRemoveCustomer = setInterval(
@@ -296,6 +299,8 @@ class GameScreen extends React.Component {
       );
     } else if (this.state.navigationSelection === "startDay") {
       return <div>Press Start Button below</div>;
+    } else if (this.state.navigationSelection === "dayStarted") {
+      return <div>Time is passing...</div>;
     }
   };
 
