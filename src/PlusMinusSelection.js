@@ -23,7 +23,7 @@ class PlusMinusSelection extends React.Component {
       data.amount = this.state.recipeValue + 1;
 
       this.setState({
-        recipeValue: this.state.value + 1
+        recipeValue: this.state.recipeValue + 1
       });
     }
     data.name = this.props.name;
@@ -46,7 +46,7 @@ class PlusMinusSelection extends React.Component {
       data.amount = this.state.recipeValue - 1;
 
       this.setState({
-        recipeValue: this.state.value - 1
+        recipeValue: this.state.recipeValue - 1
       });
     }
 
