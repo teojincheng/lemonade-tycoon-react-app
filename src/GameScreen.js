@@ -1,12 +1,11 @@
 import React from "react";
 import InformationCard from "./InformationCard";
 import InternalGame from "./InternalGame";
-import SuppliesAdjustList from "./SuppliesList";
-import RecipeAdjustList from "./RecipeList";
 import PlusMinusSelectionSelling from "./PlusMinusSelectionSelling";
 import axios from "axios";
 import "./GameScreen.css";
 import Constant from "./Constant";
+import SelectionList from "./SelectionList";
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -280,14 +279,22 @@ class GameScreen extends React.Component {
       return (
         <div>
           <h3>Supplies</h3>
-          <SuppliesAdjustList parentCallBack={this.getDataFromSuppliesList} />
+          <SelectionList
+            key="supplySelection"
+            hasCost="true"
+            parentCallBack={this.getDataFromSuppliesList}
+          />
         </div>
       );
     } else if (this.state.navigationSelection === "recipe") {
       return (
         <div>
           <h3>Recipe</h3>
-          <RecipeAdjustList parentCallBack={this.getDataFromRecipeList} />
+          <SelectionList
+            key="recipeSelection"
+            hasCost="false"
+            parentCallBack={this.getDataFromRecipeList}
+          />
         </div>
       );
     } else if (this.state.navigationSelection === "marketing") {

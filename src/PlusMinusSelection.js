@@ -5,18 +5,28 @@ class PlusMinusSelection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0
+      value: 0,
+      recipeValue: 0
     };
   }
 
   increaseValue = () => {
-    this.setState({
-      value: this.state.value + 1
-    });
-    let data = {
-      name: this.props.name,
-      amount: this.state.value + 1
-    };
+    let data = {};
+    if (this.props.hasCost === "true") {
+      data.amount = this.state.value + 1;
+
+      this.setState({
+        value: this.state.value + 1
+      });
+    } else {
+      console.log("inside else");
+      data.amount = this.state.recipeValue + 1;
+
+      this.setState({
+        recipeValue: this.state.value + 1
+      });
+    }
+    data.name = this.props.name;
     this.props.parentCallBack(data);
   };
 
@@ -24,14 +34,23 @@ class PlusMinusSelection extends React.Component {
     if (this.state.value === 0) {
       return;
     }
-    this.setState({
-      value: this.state.value - 1
-    });
 
-    let data = {
-      name: this.props.name,
-      amount: this.state.value - 1
-    };
+    let data = {};
+
+    if (this.props.hasCost === "true") {
+      data.amount = this.state.value - 1;
+      this.setState({
+        value: this.state.value - 1
+      });
+    } else {
+      data.amount = this.state.recipeValue - 1;
+
+      this.setState({
+        recipeValue: this.state.value - 1
+      });
+    }
+
+    data.name = this.props.name;
     this.props.parentCallBack(data);
   };
 
@@ -123,7 +142,11 @@ class PlusMinusSelection extends React.Component {
             ? this.renderDisplayName()
             : this.renderIconOnly()}
         </div>
-        <div className="vertical-center">{this.state.value}</div>
+        <div className="vertical-center">
+          {this.props.hasCost === "true"
+            ? this.state.value
+            : this.state.recipeValue}
+        </div>
         <div>
           <button onClick={this.increaseValue}>
             <img
