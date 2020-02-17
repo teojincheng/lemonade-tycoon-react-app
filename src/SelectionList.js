@@ -91,7 +91,7 @@ class SelectionList extends React.Component {
       <div>
         {arrOfSelection}
         <button onClick={this.sendArrOfDataToGameScreen}>
-          {this.props.hasCost ? "Buy" : "Set Recipe"}
+          {this.props.hasCost === "true" ? "Buy" : "Set Recipe"}
         </button>
       </div>
     );
