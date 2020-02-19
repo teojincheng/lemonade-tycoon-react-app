@@ -120,7 +120,6 @@ class GameScreen extends React.Component {
   componentWillUnmount() {
     clearInterval(this.timerID);
     clearInterval(this.timerRemoveCustomer);
-    //clearInterval(this.timerToCheckCustomerQueue);
   }
 
   displayCustomerQueue = () => {
@@ -249,24 +248,12 @@ class GameScreen extends React.Component {
     }
 
     copyOfCustomerQueue.shift();
-    //let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
-    //let profitUpdated = this.state.profit + profitOfOneSale;
-    //let profitToGiveState = parseFloat(profitUpdated.toFixed(2));
     this.removeSupplyOfRawIngredientAfterSale();
     this.setState({
       customerQueue: copyOfCustomerQueue,
       profit: profitOfOneSale,
       numberOfCupsInStore: this.state.numbersOfCupsMade - 1
     });
-  };
-
-  // after day has started. keep checking if there are customers in the queue.
-  // can also check if number of cups made less than number of customers in the queue.
-
-  checkWhetherCustomerQueueIsEmpty = () => {
-    if (this.state.customerQueue.length === 0) {
-      clearInterval(this.timerRemoveCustomer);
-    }
   };
 
   calculateProfitOfOneSale = () => {
@@ -286,13 +273,6 @@ class GameScreen extends React.Component {
       () => this.removeCustomerFromQueue(this.calculateProfitOfOneSale()),
       5000
     );
-
-    /*
-    this.timerToCheckCustomerQueue = setInterval(
-      () => this.checkWhetherCustomerQueueIsEmpty(),
-      1000
-    );
-    */
   };
 
   //depending on what the user has done, for example after buying supplies, display the screen to
