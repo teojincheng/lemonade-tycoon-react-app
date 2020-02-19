@@ -235,6 +235,12 @@ class GameScreen extends React.Component {
   //
   removeCustomerFromQueue = () => {
     let copyOfCustomerQueue = [...this.state.customerQueue];
+
+    if (copyOfCustomerQueue.length === 0) {
+      clearInterval(this.timerRemoveCustomer);
+      return;
+    }
+
     copyOfCustomerQueue.shift();
     let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
     let profitUpdated = this.state.profit + profitOfOneSale;
@@ -266,10 +272,13 @@ class GameScreen extends React.Component {
       () => this.removeCustomerFromQueue(),
       5000
     );
+
+    /*
     this.timerToCheckCustomerQueue = setInterval(
       () => this.checkWhetherCustomerQueueIsEmpty(),
       1000
     );
+    */
   };
 
   //depending on what the user has done, for example after buying supplies, display the screen to

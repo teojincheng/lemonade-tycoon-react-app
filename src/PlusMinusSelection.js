@@ -19,7 +19,6 @@ class PlusMinusSelection extends React.Component {
         value: this.state.value + 1
       });
     } else {
-      console.log("inside else");
       data.amount = this.state.recipeValue + 1;
 
       this.setState({
@@ -31,18 +30,22 @@ class PlusMinusSelection extends React.Component {
   };
 
   decreaseValue = () => {
-    if (this.state.value === 0) {
-      return;
-    }
-
     let data = {};
 
     if (this.props.hasCost === "true") {
+      if (this.state.value === 0) {
+        return;
+      }
+
       data.amount = this.state.value - 1;
       this.setState({
         value: this.state.value - 1
       });
     } else {
+      if (this.state.recipeValue === 0) {
+        return;
+      }
+
       data.amount = this.state.recipeValue - 1;
 
       this.setState({
