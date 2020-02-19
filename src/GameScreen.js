@@ -30,6 +30,7 @@ class GameScreen extends React.Component {
       canSelectSupplies: true,
       buyButtonIsClicked: false,
       numbersOfCupsMade: 0,
+      numberOfCupsInStore: 0,
       totalCostOfSupplies: 0,
       costPerCup: 0,
       dayStarted: false,
@@ -119,7 +120,7 @@ class GameScreen extends React.Component {
   componentWillUnmount() {
     clearInterval(this.timerID);
     clearInterval(this.timerRemoveCustomer);
-    clearInterval(this.timerToCheckCustomerQueue);
+    //clearInterval(this.timerToCheckCustomerQueue);
   }
 
   displayCustomerQueue = () => {
@@ -202,6 +203,7 @@ class GameScreen extends React.Component {
       recipeOfSugar: data[1].amount,
       recipeOfIce: data[2].amount,
       numbersOfCupsMade: this.state.supplyOfLemon / amountOfLemon,
+      numberOfCupsInStore: this.state.supplyOfLemon / amountOfLemon,
       costPerCup:
         this.state.totalCostOfSupplies /
         (this.state.supplyOfLemon / amountOfLemon)
@@ -233,7 +235,12 @@ class GameScreen extends React.Component {
   };
 
   //
-  removeCustomerFromQueue = () => {
+  removeCustomerFromQueue = profitOfOneSale => {
+    if (this.state.numberOfCupsInStore === 0) {
+      clearInterval(this.timerRemoveCustomer);
+      return;
+    }
+
     let copyOfCustomerQueue = [...this.state.customerQueue];
 
     if (copyOfCustomerQueue.length === 0) {
@@ -242,13 +249,14 @@ class GameScreen extends React.Component {
     }
 
     copyOfCustomerQueue.shift();
-    let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
-    let profitUpdated = this.state.profit + profitOfOneSale;
-    let profitToGiveState = parseFloat(profitUpdated.toFixed(2));
+    //let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
+    //let profitUpdated = this.state.profit + profitOfOneSale;
+    //let profitToGiveState = parseFloat(profitUpdated.toFixed(2));
     this.removeSupplyOfRawIngredientAfterSale();
     this.setState({
       customerQueue: copyOfCustomerQueue,
-      profit: profitToGiveState
+      profit: profitOfOneSale,
+      numberOfCupsInStore: this.state.numbersOfCupsMade - 1
     });
   };
 
@@ -261,6 +269,12 @@ class GameScreen extends React.Component {
     }
   };
 
+  calculateProfitOfOneSale = () => {
+    let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
+    let profitUpdated = this.state.profit + profitOfOneSale;
+    return parseFloat(profitUpdated.toFixed(2));
+  };
+
   //after user has started the day, add customers into the queue
   AddCustomerPeriodically = () => {
     this.setState({
@@ -269,7 +283,7 @@ class GameScreen extends React.Component {
     document.getElementById("start-button").style.visibility = "hidden";
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
     this.timerRemoveCustomer = setInterval(
-      () => this.removeCustomerFromQueue(),
+      () => this.removeCustomerFromQueue(this.calculateProfitOfOneSale()),
       5000
     );
 
