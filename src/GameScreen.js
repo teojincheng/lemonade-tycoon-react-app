@@ -34,7 +34,8 @@ class GameScreen extends React.Component {
       totalCostOfSupplies: 0,
       costPerCup: 0,
       dayStarted: false,
-      profit: 0
+      profit: 0,
+      day: 1
     };
   }
 
@@ -244,6 +245,12 @@ class GameScreen extends React.Component {
 
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
+      //start a new day?
+      /*
+      this.setState({
+        navigationSelection: "supplies"
+      });
+      */
       return;
     }
 
