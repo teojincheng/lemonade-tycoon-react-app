@@ -216,6 +216,20 @@ class GameScreen extends React.Component {
       return;
     }
 
+    const arrOfPostPromises = [];
+
+    for (let i = 0; i < data.length; i++) {
+      const recipeObj = {};
+      recipeObj.name = data[i].name;
+      recipeObj.qty = data[i].amount;
+
+      arrOfPostPromises.push(
+        axios.post("http://localhost:3000/recipes", recipeObj)
+      );
+    }
+
+    Promise.all(arrOfPostPromises).then(console.log("POSTED to recipe"));
+
     this.setState({
       recipeOfLemon: data[0].amount,
       recipeOfSugar: data[1].amount,
@@ -265,6 +279,19 @@ class GameScreen extends React.Component {
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
+
+      axios
+        .post("/user", {
+          firstName: "Fred",
+          lastName: "Flintstone"
+        })
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
       //start a new day?
       /*
       this.setState({
