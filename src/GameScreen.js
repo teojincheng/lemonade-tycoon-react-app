@@ -167,9 +167,7 @@ class GameScreen extends React.Component {
     }
 
     axios
-      .post("http://localhost:3000/supplies", [
-        { name: "Lemon", qty: 5, costPrice: 0.5 }
-      ])
+      .post("http://localhost:3000/supplies", suppliesArrToPost)
       .then(function(response) {
         console.log(response);
       })
