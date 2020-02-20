@@ -157,6 +157,26 @@ class GameScreen extends React.Component {
       return;
     }
 
+    const suppliesArrToPost = [];
+    for (let i = 0; i < data.length; i++) {
+      const supplyObj = {};
+      supplyObj.name = data[i].name;
+      supplyObj.qty = data[i].amount;
+      supplyObj.costPrice = Constant.ARR_SUPPLIES_COST[i];
+      suppliesArrToPost.push(supplyObj);
+    }
+
+    axios
+      .post("http://localhost:3000/supplies", [
+        { name: "Lemon", qty: 5, costPrice: 0.5 }
+      ])
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
     this.setState({
       supplyOfLemon: data[0].amount,
       supplyOfSugar: data[1].amount,
