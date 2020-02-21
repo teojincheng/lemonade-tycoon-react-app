@@ -181,7 +181,7 @@ class GameScreen extends React.Component {
       supplyOfLemon: data[0].amount,
       supplyOfSugar: data[1].amount,
       supplyOfIce: data[2].amount,
-      budget: this.state.budget - totalCost,
+      budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
       totalCostOfSupplies: totalCost
     });
     this.updateSelection("recipe");
@@ -278,6 +278,10 @@ class GameScreen extends React.Component {
     return dayStatObj;
   };
 
+  resetGameStatsForNewDay = () => {
+    this.setState({});
+  };
+
   //
   removeCustomerFromQueue = profitOfOneSale => {
     //condition when a game day has ended
@@ -306,7 +310,7 @@ class GameScreen extends React.Component {
     this.setState({
       customerQueue: copyOfCustomerQueue,
       profit: profitOfOneSale,
-      numberOfCupsInStore: this.state.numbersOfCupsMade - 1
+      numberOfCupsInStore: this.state.numberOfCupsInStore - 1
     });
 
     axios
