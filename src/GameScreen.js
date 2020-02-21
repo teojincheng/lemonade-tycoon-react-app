@@ -273,8 +273,7 @@ class GameScreen extends React.Component {
     dayStatObj.dayNumber = this.state.day;
     dayStatObj.costPerCup = this.state.costPerCup;
     dayStatObj.sellingPricePerCup = this.state.sellingPricePerCup;
-    dayStatObj.cupsSold =
-      this.state.numbersOfCupsMade - this.state.numberOfCupsInStore;
+    dayStatObj.cupsSold = 1;
 
     return dayStatObj;
   };
@@ -284,15 +283,6 @@ class GameScreen extends React.Component {
     //condition when a game day has ended
     if (this.state.numberOfCupsInStore === 0) {
       clearInterval(this.timerRemoveCustomer);
-
-      axios
-        .post("http://localhost:3000/statistics", this.constructDayStatObj())
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
       return;
     }
 
@@ -301,16 +291,6 @@ class GameScreen extends React.Component {
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
-
-      axios
-        .post("http://localhost:3000/statistics", this.constructDayStatObj())
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-
       //start a new day?
       /*
       this.setState({
@@ -322,11 +302,21 @@ class GameScreen extends React.Component {
 
     copyOfCustomerQueue.shift();
     this.removeSupplyOfRawIngredientAfterSale();
+
     this.setState({
       customerQueue: copyOfCustomerQueue,
       profit: profitOfOneSale,
       numberOfCupsInStore: this.state.numbersOfCupsMade - 1
     });
+
+    axios
+      .post("http://localhost:3000/statistics", this.constructDayStatObj())
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   calculateProfitOfOneSale = () => {
