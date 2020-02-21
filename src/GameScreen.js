@@ -278,8 +278,20 @@ class GameScreen extends React.Component {
     return dayStatObj;
   };
 
-  resetGameStatsForNewDay = () => {
-    this.setState({});
+  resetGameStatesForNewDay = () => {
+    this.setState({
+      costPerCup: 0,
+      numberOfCupsInStore: 0,
+      numbersOfCupsMade: 0,
+      recipeOfIce: 0,
+      recipeOfSugar: 0,
+      recipeOfLemon: 0,
+      sellingPricePerCup: 0,
+      supplyOfIce: 0,
+      supplyOfLemon: 0,
+      supplyOfSugar: 0,
+      totalCostOfSupplies: 0
+    });
   };
 
   //
@@ -295,12 +307,13 @@ class GameScreen extends React.Component {
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
+      this.resetGameStatesForNewDay();
       //start a new day?
-      /*
+
       this.setState({
         navigationSelection: "supplies"
       });
-      */
+
       return;
     }
 
