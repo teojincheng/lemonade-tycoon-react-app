@@ -73,11 +73,11 @@ class GameScreen extends React.Component {
   };
 
   //when axios call to api is done, call this function to set the image of every customer
-  setPictureOfCustomer = arrOfCustomer => {
+  setPictureOfCustomer = (arrOfCustomer, arrOfImageData) => {
     let copyOfCustomers = [...arrOfCustomer];
 
     for (let i = 0; i < copyOfCustomers.length; i++) {
-      copyOfCustomers[i].imageSrc = this.state.arrOfPeople[i].picture.medium;
+      copyOfCustomers[i].imageSrc = arrOfImageData.data[i]._imageSrc;
     }
 
     this.setState({
@@ -107,14 +107,16 @@ class GameScreen extends React.Component {
   componentDidMount() {
     let Game = new InternalGame();
     let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
-    axios("https://randomuser.me/api/?results=5").then(response => {
+    axios("http://localhost:3000/customers").then(response => {
       this.setState({
         arrOfCustomer: internalArrOfCustomer
       });
+      /*
       this.setState({
         arrOfPeople: response.data.results
       });
-      this.setPictureOfCustomer(this.state.arrOfCustomer);
+      */
+      this.setPictureOfCustomer(this.state.arrOfCustomer, response);
     });
   }
 
@@ -266,11 +268,31 @@ class GameScreen extends React.Component {
     });
   };
 
+  constructDayStatObj = () => {
+    const dayStatObj = {};
+    dayStatObj.dayNumber = this.state.day;
+    dayStatObj.costPerCup = this.state.costPerCup;
+    dayStatObj.sellingPricePerCup = this.state.sellingPricePerCup;
+    dayStatObj.cupsSold =
+      this.state.numbersOfCupsMade - this.state.numberOfCupsInStore;
+
+    return dayStatObj;
+  };
+
   //
   removeCustomerFromQueue = profitOfOneSale => {
     //condition when a game day has ended
     if (this.state.numberOfCupsInStore === 0) {
       clearInterval(this.timerRemoveCustomer);
+
+      axios
+        .post("http://localhost:3000/statistics", this.constructDayStatObj())
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       return;
     }
 
@@ -281,10 +303,7 @@ class GameScreen extends React.Component {
       clearInterval(this.timerRemoveCustomer);
 
       axios
-        .post("/user", {
-          firstName: "Fred",
-          lastName: "Flintstone"
-        })
+        .post("http://localhost:3000/statistics", this.constructDayStatObj())
         .then(function(response) {
           console.log(response);
         })
