@@ -108,24 +108,11 @@ class GameScreen extends React.Component {
 
   initialiseCustomers = () => {
     axios("http://localhost:3000/customers").then(response => {
-      /*
-    this.setState({
-        arrOfCustomer: internalArrOfCustomer
-      });
-      /*
-      this.setState({
-        arrOfPeople: response.data.results
-      });
-      */
       this.setPictureOfCustomer(response);
     });
   };
 
   componentDidMount() {
-    /*
-    let Game = new InternalGame();
-    let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
-    */
     this.initialiseCustomers();
   }
 
@@ -317,6 +304,7 @@ class GameScreen extends React.Component {
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
+      document.getElementById("customer-queue").style.display = "none";
       this.resetGameStatesForNewDay();
       this.initialiseCustomers();
       //start a new day?
@@ -359,6 +347,7 @@ class GameScreen extends React.Component {
       navigationSelection: "dayStarted"
     });
     document.getElementById("start-button").style.visibility = "hidden";
+    document.getElementById("customer-queue").style.display = "block";
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
     this.timerRemoveCustomer = setInterval(
       () => this.removeCustomerFromQueue(this.calculateProfitOfOneSale()),
@@ -444,7 +433,7 @@ class GameScreen extends React.Component {
           <InformationCard>
             {this.displayContentInsideInformationCard()}
           </InformationCard>
-          <div>{this.displayCustomerQueue()}</div>
+          <div id="customer-queue">{this.displayCustomerQueue()}</div>
           <button id="start-button" onClick={this.AddCustomerPeriodically}>
             Start Day
           </button>

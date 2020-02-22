@@ -9,3 +9,7 @@
 .show-as-row {
   text-align: center;
 }
+
+#customer-queue {
+  display: none;
+}
