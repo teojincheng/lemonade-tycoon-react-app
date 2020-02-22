@@ -106,6 +106,23 @@ class GameScreen extends React.Component {
     return numbersOfCups;
   };
 
+  getSuppliesDataFromDatabase = () => {
+    axios.get("http://localhost:3000/supplies").then(response => {
+      if (response.data.length === 3) {
+        /*
+        this.setState({
+          supplyOfLemon: data[0].amount,
+          supplyOfSugar: data[1].amount,
+          supplyOfIce: data[2].amount,
+          budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+          totalCostOfSupplies: totalCost
+        });
+        this.updateSelection("recipe");
+        */
+      }
+    });
+  };
+
   initialiseCustomers = () => {
     axios("http://localhost:3000/customers").then(response => {
       this.setPictureOfCustomer(response);
@@ -114,6 +131,7 @@ class GameScreen extends React.Component {
 
   componentDidMount() {
     this.initialiseCustomers();
+    this.getSuppliesDataFromDatabase();
   }
 
   componentWillUnmount() {
