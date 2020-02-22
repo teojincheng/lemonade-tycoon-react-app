@@ -293,14 +293,7 @@ class GameScreen extends React.Component {
 
   //
   removeCustomerFromQueue = profitOfOneSale => {
-    //condition when a game day has ended
-    if (this.state.numberOfCupsInStore === 0) {
-      clearInterval(this.timerRemoveCustomer);
-      return;
-    }
-
     let copyOfCustomerQueue = [...this.state.customerQueue];
-
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
@@ -313,6 +306,12 @@ class GameScreen extends React.Component {
         navigationSelection: "supplies"
       });
 
+      return;
+    }
+
+    //condition when a game day has ended
+    if (this.state.numberOfCupsInStore === 0) {
+      clearInterval(this.timerRemoveCustomer);
       return;
     }
 
