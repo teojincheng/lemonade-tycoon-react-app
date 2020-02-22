@@ -1,11 +1,12 @@
 import React from "react";
 import InformationCard from "./InformationCard";
-import InternalGame from "./InternalGame";
+import Customer from "./Customer";
 import PlusMinusSelectionSelling from "./PlusMinusSelectionSelling";
 import axios from "axios";
 import "./GameScreen.css";
 import Constant from "./Constant";
 import SelectionList from "./SelectionList";
+const NUM_CUSTOMERS = 2;
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -73,15 +74,16 @@ class GameScreen extends React.Component {
   };
 
   //when axios call to api is done, call this function to set the image of every customer
-  setPictureOfCustomer = (arrOfCustomer, arrOfImageData) => {
-    let copyOfCustomers = [...arrOfCustomer];
-
-    for (let i = 0; i < copyOfCustomers.length; i++) {
-      copyOfCustomers[i].imageSrc = arrOfImageData.data[i]._imageSrc;
+  setPictureOfCustomer = arrOfImageData => {
+    const customers = [];
+    for (let i = 0; i < NUM_CUSTOMERS; i++) {
+      const newCustomer = new Customer();
+      newCustomer.imageSrc = arrOfImageData.data[i]._imageSrc;
+      customers.push(newCustomer);
     }
 
     this.setState({
-      arrOfCustomer: arrOfCustomer
+      arrOfCustomer: customers
     });
   };
 
@@ -104,11 +106,10 @@ class GameScreen extends React.Component {
     return numbersOfCups;
   };
 
-  componentDidMount() {
-    let Game = new InternalGame();
-    let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
+  initialiseCustomers = () => {
     axios("http://localhost:3000/customers").then(response => {
-      this.setState({
+      /*
+    this.setState({
         arrOfCustomer: internalArrOfCustomer
       });
       /*
@@ -116,8 +117,16 @@ class GameScreen extends React.Component {
         arrOfPeople: response.data.results
       });
       */
-      this.setPictureOfCustomer(this.state.arrOfCustomer, response);
+      this.setPictureOfCustomer(response);
     });
+  };
+
+  componentDidMount() {
+    /*
+    let Game = new InternalGame();
+    let internalArrOfCustomer = Game.createCustomersAndAddIntoArrOfCustomers();
+    */
+    this.initialiseCustomers();
   }
 
   componentWillUnmount() {
@@ -290,7 +299,8 @@ class GameScreen extends React.Component {
       supplyOfIce: 0,
       supplyOfLemon: 0,
       supplyOfSugar: 0,
-      totalCostOfSupplies: 0
+      totalCostOfSupplies: 0,
+      day: this.state.day + 1
     });
   };
 
@@ -308,6 +318,7 @@ class GameScreen extends React.Component {
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
       this.resetGameStatesForNewDay();
+      this.initialiseCustomers();
       //start a new day?
 
       this.setState({
