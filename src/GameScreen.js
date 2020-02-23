@@ -329,10 +329,30 @@ class GameScreen extends React.Component {
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
       clearInterval(this.timerRemoveCustomer);
+
+      //remove data from database.
+      axios
+        .delete("http://localhost:3000/supplies")
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      axios
+        .delete("http://localhost:3000/recipes")
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      //start a new day
       document.getElementById("customer-queue").style.display = "none";
       this.resetGameStatesForNewDay();
       this.initialiseCustomers();
-      //start a new day?
 
       this.setState({
         navigationSelection: "supplies"
