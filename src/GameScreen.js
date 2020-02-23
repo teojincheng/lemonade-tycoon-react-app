@@ -2,7 +2,7 @@ import React from "react";
 import InformationCard from "./InformationCard";
 import Customer from "./Customer";
 import PlusMinusSelectionSelling from "./PlusMinusSelectionSelling";
-import axios from "axios";
+import AxiosInstance from "./AxiosInstance";
 import "./GameScreen.css";
 import Constant from "./Constant";
 import SelectionList from "./SelectionList";
@@ -107,7 +107,7 @@ class GameScreen extends React.Component {
   };
 
   getSuppliesDataFromDatabase = () => {
-    axios.get("http://localhost:3000/supplies").then(response => {
+    AxiosInstance.get("/supplies").then(response => {
       if (response.data.length === 3) {
         const costOfLemon =
           Constant.BUYING_PRICE_ONE_LEMON * response.data[0].qty;
@@ -132,7 +132,7 @@ class GameScreen extends React.Component {
   };
 
   initialiseCustomers = () => {
-    axios("http://localhost:3000/customers").then(response => {
+    AxiosInstance("/customers").then(response => {
       this.setPictureOfCustomer(response);
     });
   };
@@ -190,8 +190,7 @@ class GameScreen extends React.Component {
       suppliesArrToPost.push(supplyObj);
     }
 
-    axios
-      .post("http://localhost:3000/supplies", suppliesArrToPost)
+    AxiosInstance.post("/supplies", suppliesArrToPost)
       .then(function(response) {
         console.log(response);
       })
@@ -253,9 +252,7 @@ class GameScreen extends React.Component {
       recipeObj.name = data[i].name;
       recipeObj.qty = data[i].amount;
 
-      arrOfPostPromises.push(
-        axios.post("http://localhost:3000/recipes", recipeObj)
-      );
+      arrOfPostPromises.push(AxiosInstance.post("/recipes", recipeObj));
     }
 
     Promise.all(arrOfPostPromises).then(console.log("POSTED to recipe"));
@@ -331,8 +328,7 @@ class GameScreen extends React.Component {
       clearInterval(this.timerRemoveCustomer);
 
       //remove data from database.
-      axios
-        .delete("http://localhost:3000/supplies")
+      AxiosInstance.delete("/supplies")
         .then(function(response) {
           console.log(response);
         })
@@ -340,8 +336,7 @@ class GameScreen extends React.Component {
           console.log(error);
         });
 
-      axios
-        .delete("http://localhost:3000/recipes")
+      AxiosInstance.delete("/recipes")
         .then(function(response) {
           console.log(response);
         })
@@ -351,8 +346,7 @@ class GameScreen extends React.Component {
 
       //game day has ended and we are at the second game day.
       if (this.state.day === 2) {
-        axios
-          .get("http://localhost:3000/statistics")
+        AxiosInstance.get("/statistics")
           .then(function(response) {
             // handle success
 
@@ -400,8 +394,7 @@ class GameScreen extends React.Component {
       numberOfCupsInStore: this.state.numberOfCupsInStore - 1
     });
 
-    axios
-      .post("http://localhost:3000/statistics", this.constructDayStatObj())
+    AxiosInstance.post("/statistics", this.constructDayStatObj())
       .then(function(response) {
         console.log(response);
       })
