@@ -349,6 +349,21 @@ class GameScreen extends React.Component {
           console.log(error);
         });
 
+      //game day has ended and we are at the second game day.
+      if (this.state.day === 2) {
+        axios
+          .get("http://localhost:3000/statistics")
+          .then(function(response) {
+            // handle success
+            console.log(response);
+          })
+          .catch(function(error) {
+            // handle error
+            console.log(error);
+          });
+        return;
+      }
+
       //start a new day
       document.getElementById("customer-queue").style.display = "none";
       this.resetGameStatesForNewDay();
