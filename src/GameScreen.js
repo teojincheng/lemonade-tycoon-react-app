@@ -355,7 +355,16 @@ class GameScreen extends React.Component {
           .get("http://localhost:3000/statistics")
           .then(function(response) {
             // handle success
-            console.log(response);
+
+            let message = "";
+            for (let i = 0; i < response.data.length; i++) {
+              message +=
+                " Day " +
+                response.data[i]._id +
+                " Profit : " +
+                response.data[i].profitPerCup;
+            }
+            alert(message);
           })
           .catch(function(error) {
             // handle error
