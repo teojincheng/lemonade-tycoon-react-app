@@ -109,17 +109,25 @@ class GameScreen extends React.Component {
   getSuppliesDataFromDatabase = () => {
     axios.get("http://localhost:3000/supplies").then(response => {
       if (response.data.length === 3) {
-        /*
+        const costOfLemon =
+          Constant.BUYING_PRICE_ONE_LEMON * response.data[0].qty;
+        const costOfSugar =
+          Constant.BUYING_PRICE_ONE_CUP_SUGAR * response.data[1].qty;
+        const costOfIce =
+          Constant.BUYING_PRICE_ONE_ICE_CUBE * response.data[2].qty;
+        const totalCost = parseFloat(
+          costOfLemon + costOfSugar + costOfIce
+        ).toFixed(2);
+
         this.setState({
-          supplyOfLemon: data[0].amount,
-          supplyOfSugar: data[1].amount,
-          supplyOfIce: data[2].amount,
+          supplyOfLemon: response.data[0].qty,
+          supplyOfSugar: response.data[1].qty,
+          supplyOfIce: response.data[2].qty,
           budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
           totalCostOfSupplies: totalCost
         });
-        this.updateSelection("recipe");
-        */
       }
+      this.updateSelection("recipe");
     });
   };
 
@@ -190,6 +198,12 @@ class GameScreen extends React.Component {
       .catch(function(error) {
         console.log(error);
       });
+
+    this.setState({
+      budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+      totalCostOfSupplies: totalCost
+    });
+    this.updateSelection("recipe");
 
     this.setState({
       supplyOfLemon: data[0].amount,
