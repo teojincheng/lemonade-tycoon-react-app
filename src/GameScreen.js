@@ -154,6 +154,17 @@ class GameScreen extends React.Component {
     return arrToDisplay;
   };
 
+  thereIsExistingSupplies = () => {
+    if (
+      this.state.supplyOfLemon !== 0 &&
+      this.state.supplyOfSugar !== 0 &&
+      this.state.supplyOfIce !== 0
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   //after user has input the supplies to buy for the day, get data from the
   //children component
   //refactor
@@ -181,37 +192,65 @@ class GameScreen extends React.Component {
       return;
     }
 
-    const suppliesArrToPost = [];
-    for (let i = 0; i < data.length; i++) {
-      const supplyObj = {};
-      supplyObj.name = data[i].name;
-      supplyObj.qty = data[i].amount;
-      supplyObj.costPrice = Constant.ARR_SUPPLIES_COST[i];
-      suppliesArrToPost.push(supplyObj);
-    }
+    //existing supplies from first game day.
+    if (this.thereIsExistingSupplies()) {
+      const lemonSupplyObj = {};
+      lemonSupplyObj.name = "lemon";
+      lemonSupplyObj.qty = this.state.supplyOfLemon + amountOfLemon;
 
-    AxiosInstance.post("/supplies", suppliesArrToPost)
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
+      const sugarSupplyObj = {};
+      sugarSupplyObj.name = "sugar";
+      sugarSupplyObj.qty = this.state.supplyOfSugar + amountOfSugar;
+
+      const iceSupplyObj = {};
+      iceSupplyObj.name = "ice";
+      iceSupplyObj.qty = this.state.supplyOfIce + amountOfIce;
+
+      const suppliesArrToPatch = [lemonSupplyObj, sugarSupplyObj, iceSupplyObj];
+
+      AxiosInstance.patch("/supplies", suppliesArrToPatch)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.setState({
+        supplyOfLemon: this.state.supplyOfLemon + amountOfLemon,
+        supplyOfSugar: this.state.supplyOfSugar + amountOfSugar,
+        supplyOfIce: this.state.supplyOfIce + amountOfIce,
+        budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+        totalCostOfSupplies: totalCost
       });
+      this.updateSelection("recipe");
+    } else {
+      const suppliesArrToPost = [];
+      for (let i = 0; i < data.length; i++) {
+        const supplyObj = {};
+        supplyObj.name = data[i].name;
+        supplyObj.qty = data[i].amount;
+        supplyObj.costPrice = Constant.ARR_SUPPLIES_COST[i];
+        suppliesArrToPost.push(supplyObj);
+      }
 
-    this.setState({
-      budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
-      totalCostOfSupplies: totalCost
-    });
-    this.updateSelection("recipe");
+      AxiosInstance.post("/supplies", suppliesArrToPost)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
 
-    this.setState({
-      supplyOfLemon: data[0].amount,
-      supplyOfSugar: data[1].amount,
-      supplyOfIce: data[2].amount,
-      budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
-      totalCostOfSupplies: totalCost
-    });
-    this.updateSelection("recipe");
+      this.setState({
+        supplyOfLemon: amountOfLemon,
+        supplyOfSugar: amountOfSugar,
+        supplyOfIce: amountOfIce,
+        budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+        totalCostOfSupplies: totalCost
+      });
+      this.updateSelection("recipe");
+    }
   };
 
   //after user has input the recipe for each cup. get data from children component
@@ -312,14 +351,24 @@ class GameScreen extends React.Component {
       recipeOfSugar: 0,
       recipeOfLemon: 0,
       sellingPricePerCup: 0,
+      /*
       supplyOfIce: 0,
       supplyOfLemon: 0,
       supplyOfSugar: 0,
+      */
       totalCostOfSupplies: 0,
       day: this.state.day + 1
     });
   };
 
+  functionForResettingStates = () => {
+    this.resetGameStatesForNewDay();
+
+    this.setState({
+      navigationSelection: "supplies"
+    });
+    document.getElementById("customer-queue").style.display = "none";
+  };
   //
   removeCustomerFromQueue = profitOfOneSale => {
     let copyOfCustomerQueue = [...this.state.customerQueue];
@@ -328,6 +377,7 @@ class GameScreen extends React.Component {
       clearInterval(this.timerRemoveCustomer);
 
       //remove data from database.
+      /*
       AxiosInstance.delete("/supplies")
         .then(function(response) {
           console.log(response);
@@ -335,6 +385,7 @@ class GameScreen extends React.Component {
         .catch(function(error) {
           console.log(error);
         });
+        */
 
       AxiosInstance.delete("/recipes")
         .then(function(response) {
@@ -346,6 +397,14 @@ class GameScreen extends React.Component {
 
       //game day has ended and we are at the second game day.
       if (this.state.day === 2) {
+        AxiosInstance.delete("/supplies")
+          .then(function(response) {
+            console.log(response);
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+
         AxiosInstance.get("/statistics")
           .then(function(response) {
             // handle success
@@ -359,6 +418,14 @@ class GameScreen extends React.Component {
                 response.data[i].profitPerCup;
             }
             alert(message);
+
+            AxiosInstance.delete("/statistics")
+              .then(function(response) {
+                console.log(response);
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
           })
           .catch(function(error) {
             // handle error
@@ -368,14 +435,20 @@ class GameScreen extends React.Component {
       }
 
       //start a new day
-      document.getElementById("customer-queue").style.display = "none";
-      this.resetGameStatesForNewDay();
       this.initialiseCustomers();
-
-      this.setState({
-        navigationSelection: "supplies"
-      });
-
+      if (
+        this.state.supplyOfIce === 0 &&
+        this.state.supplyOfSugar === 0 &&
+        this.state.supplyOfLemon === 0
+      ) {
+        AxiosInstance.delete("/supplies")
+          .then(this.functionForResettingStates())
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        this.functionForResettingStates();
+      }
       return;
     }
 
