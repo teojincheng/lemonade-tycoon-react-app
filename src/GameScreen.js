@@ -132,7 +132,7 @@ class GameScreen extends React.Component {
   };
 
   initialiseCustomers = () => {
-    AxiosInstance("/customers").then(response => {
+    AxiosInstance.get("/customers").then(response => {
       this.setPictureOfCustomer(response);
     });
   };
