@@ -78,7 +78,7 @@ class GameScreen extends React.Component {
     const customers = [];
     for (let i = 0; i < NUM_CUSTOMERS; i++) {
       const newCustomer = new Customer();
-      newCustomer.imageSrc = arrOfImageData.data[i]._imageSrc;
+      newCustomer.imageSrc = arrOfImageData.data[i].imageSrc;
       customers.push(newCustomer);
     }
 
