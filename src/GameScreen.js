@@ -418,6 +418,7 @@ class GameScreen extends React.Component {
                 response.data[i].profitPerCup;
             }
             alert(message);
+            window.location.reload();
 
             AxiosInstance.delete("/statistics")
               .then(function(response) {
@@ -431,6 +432,7 @@ class GameScreen extends React.Component {
             // handle error
             console.log(error);
           });
+
         return;
       }
 
