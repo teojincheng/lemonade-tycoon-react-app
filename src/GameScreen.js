@@ -457,6 +457,23 @@ class GameScreen extends React.Component {
     //condition when a game day has ended
     if (this.state.numberOfCupsInStore === 0) {
       clearInterval(this.timerRemoveCustomer);
+      this.setState({
+        customerQueue: []
+      });
+      this.initialiseCustomers();
+      if (
+        this.state.supplyOfIce === 0 &&
+        this.state.supplyOfSugar === 0 &&
+        this.state.supplyOfLemon === 0
+      ) {
+        AxiosInstance.delete("/supplies")
+          .then(this.functionForResettingStates())
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        this.functionForResettingStates();
+      }
       return;
     }
 
