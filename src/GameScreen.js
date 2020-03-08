@@ -209,10 +209,10 @@ class GameScreen extends React.Component {
       const suppliesArrToPatch = [lemonSupplyObj, sugarSupplyObj, iceSupplyObj];
 
       AxiosInstance.patch("/supplies", suppliesArrToPatch)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
 
@@ -235,10 +235,10 @@ class GameScreen extends React.Component {
       }
 
       AxiosInstance.post("/supplies", suppliesArrToPost)
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
 
@@ -388,25 +388,25 @@ class GameScreen extends React.Component {
         */
 
       AxiosInstance.delete("/recipes")
-        .then(function(response) {
+        .then(function (response) {
           console.log(response);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
 
       //game day has ended and we are at the second game day.
       if (this.state.day === 2) {
         AxiosInstance.delete("/supplies")
-          .then(function(response) {
+          .then(function (response) {
             console.log(response);
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
 
         AxiosInstance.get("/statistics")
-          .then(function(response) {
+          .then(function (response) {
             // handle success
 
             let message = "";
@@ -421,14 +421,14 @@ class GameScreen extends React.Component {
             window.location.reload();
 
             AxiosInstance.delete("/statistics")
-              .then(function(response) {
+              .then(function (response) {
                 console.log(response);
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 console.log(error);
               });
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // handle error
             console.log(error);
           });
@@ -445,7 +445,7 @@ class GameScreen extends React.Component {
       ) {
         AxiosInstance.delete("/supplies")
           .then(this.functionForResettingStates())
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       } else {
@@ -468,7 +468,7 @@ class GameScreen extends React.Component {
       ) {
         AxiosInstance.delete("/supplies")
           .then(this.functionForResettingStates())
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       } else {
@@ -487,10 +487,10 @@ class GameScreen extends React.Component {
     });
 
     AxiosInstance.post("/statistics", this.constructDayStatObj())
-      .then(function(response) {
+      .then(function (response) {
         console.log(response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
