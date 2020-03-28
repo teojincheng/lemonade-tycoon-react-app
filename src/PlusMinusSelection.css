@@ -5,7 +5,8 @@
 
 .wrapper {
   display: grid;
-  grid-template-columns: 50px 150px 20px 100px;
+  grid-template-columns: 2fr 3fr 1fr 2fr;
+  justify-items: center;
 }
 
 .button-img {

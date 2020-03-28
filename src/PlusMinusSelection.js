@@ -60,36 +60,36 @@ class PlusMinusSelection extends React.Component {
   renderDisplayName() {
     if (this.props.name === "lemon") {
       return (
-        <div>
+        <span>
           <img
             className="icon-image"
             src={process.env.PUBLIC_URL + "/icons/lemonIcon.png"}
             alt="lemon icon"
           />
           {this.props.displayName}
-        </div>
+        </span>
       );
     } else if (this.props.name === "sugar") {
       return (
-        <div>
+        <span>
           <img
             className="icon-image"
             src={process.env.PUBLIC_URL + "/icons/sugarIcon.png"}
             alt="sugar icon"
           />
           {this.props.displayName}
-        </div>
+        </span>
       );
     } else if (this.props.name === "ice") {
       return (
-        <div>
+        <span>
           <img
             className="icon-image"
             src={process.env.PUBLIC_URL + "/icons/iceIcon.png"}
             alt="ice icon"
           />
           {this.props.displayName}
-        </div>
+        </span>
       );
     }
   }
@@ -97,33 +97,27 @@ class PlusMinusSelection extends React.Component {
   renderIconOnly() {
     if (this.props.name === "lemon") {
       return (
-        <div>
-          <img
-            className="icon-image"
-            src={process.env.PUBLIC_URL + "/icons/lemonIcon.png"}
-            alt="lemon icon"
-          />
-        </div>
+        <img
+          className="icon-image"
+          src={process.env.PUBLIC_URL + "/icons/lemonIcon.png"}
+          alt="lemon icon"
+        />
       );
     } else if (this.props.name === "sugar") {
       return (
-        <div>
-          <img
-            className="icon-image"
-            src={process.env.PUBLIC_URL + "/icons/sugarIcon.png"}
-            alt="sugar icon"
-          />
-        </div>
+        <img
+          className="icon-image"
+          src={process.env.PUBLIC_URL + "/icons/sugarIcon.png"}
+          alt="sugar icon"
+        />
       );
     } else if (this.props.name === "ice") {
       return (
-        <div>
-          <img
-            className="icon-image"
-            src={process.env.PUBLIC_URL + "/icons/iceIcon.png"}
-            alt="ice icon"
-          />
-        </div>
+        <img
+          className="icon-image"
+          src={process.env.PUBLIC_URL + "/icons/iceIcon.png"}
+          alt="ice icon"
+        />
       );
     }
   }
