@@ -17,7 +17,6 @@ class GameScreen extends React.Component {
       elapsedTime: 0,
       arrOfCustomer: [],
       customerQueue: [],
-      arrOfPeople: [],
       supplyOfLemon: 0,
       supplyOfSugar: 0,
       supplyOfIce: 0,
@@ -26,10 +25,6 @@ class GameScreen extends React.Component {
       recipeOfSugar: 0,
       recipeOfIce: 0,
       sellingPricePerCup: 0,
-      canSelectRecipe: false,
-      canSelectMarketing: false,
-      canSelectSupplies: true,
-      buyButtonIsClicked: false,
       numbersOfCupsMade: 0,
       numberOfCupsInStore: 0,
       totalCostOfSupplies: 0,
@@ -167,7 +162,6 @@ class GameScreen extends React.Component {
 
   //after user has input the supplies to buy for the day, get data from the
   //children component
-  //refactor
   getDataFromSuppliesList = data => {
     let inputValidationMsg = "";
     let amountOfLemon = data[0].amount;
@@ -208,13 +202,7 @@ class GameScreen extends React.Component {
 
       const suppliesArrToPatch = [lemonSupplyObj, sugarSupplyObj, iceSupplyObj];
 
-      AxiosInstance.patch("/supplies", suppliesArrToPatch)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      AxiosInstance.patch("/supplies", suppliesArrToPatch);
 
       this.setState({
         supplyOfLemon: this.state.supplyOfLemon + amountOfLemon,
@@ -234,13 +222,7 @@ class GameScreen extends React.Component {
         suppliesArrToPost.push(supplyObj);
       }
 
-      AxiosInstance.post("/supplies", suppliesArrToPost)
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      AxiosInstance.post("/supplies", suppliesArrToPost);
 
       this.setState({
         supplyOfLemon: amountOfLemon,
@@ -254,7 +236,6 @@ class GameScreen extends React.Component {
   };
 
   //after user has input the recipe for each cup. get data from children component
-  //refactor?
   getDataFromRecipeList = data => {
     let amountOfLemon = data[0].amount;
     let amountOfSugar = data[1].amount;
@@ -294,7 +275,7 @@ class GameScreen extends React.Component {
       arrOfPostPromises.push(AxiosInstance.post("/recipes", recipeObj));
     }
 
-    Promise.all(arrOfPostPromises).then(console.log("POSTED to recipe"));
+    Promise.all(arrOfPostPromises).then();
 
     this.setState({
       recipeOfLemon: data[0].amount,
@@ -351,11 +332,6 @@ class GameScreen extends React.Component {
       recipeOfSugar: 0,
       recipeOfLemon: 0,
       sellingPricePerCup: 0,
-      /*
-      supplyOfIce: 0,
-      supplyOfLemon: 0,
-      supplyOfSugar: 0,
-      */
       totalCostOfSupplies: 0,
       day: this.state.day + 1
     });
@@ -377,33 +353,11 @@ class GameScreen extends React.Component {
       clearInterval(this.timerRemoveCustomer);
 
       //remove data from database.
-      /*
-      AxiosInstance.delete("/supplies")
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-        */
-
-      AxiosInstance.delete("/recipes")
-        .then(function(response) {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      AxiosInstance.delete("/recipes");
 
       //game day has ended and we are at the second game day.
       if (this.state.day === 2) {
-        AxiosInstance.delete("/supplies")
-          .then(function(response) {
-            console.log(response);
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
+        AxiosInstance.delete("/supplies");
 
         AxiosInstance.get("/statistics")
           .then(function(response) {
@@ -424,13 +378,7 @@ class GameScreen extends React.Component {
             alert(message);
             window.location.reload();
 
-            AxiosInstance.delete("/statistics")
-              .then(function(response) {
-                console.log(response);
-              })
-              .catch(function(error) {
-                console.log(error);
-              });
+            AxiosInstance.delete("/statistics");
           })
           .catch(function(error) {
             // handle error
@@ -490,13 +438,7 @@ class GameScreen extends React.Component {
       numberOfCupsInStore: this.state.numberOfCupsInStore - 1
     });
 
-    AxiosInstance.post("/statistics", this.constructDayStatObj())
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    AxiosInstance.post("/statistics", this.constructDayStatObj());
   };
 
   calculateProfitOfOneSale = () => {
