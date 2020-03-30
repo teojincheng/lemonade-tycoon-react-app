@@ -1,16 +1,11 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import App from "./App";
-/*
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
-*/
-
+import GameScreen from "./GameScreen";
 describe(App, () => {
-  it("can test normally", () => {
-    expect(1).toBe(1);
+  it("<GameScreen> should render", () => {
+    const { getByText } = render(<GameScreen />);
+    const gameScreenComponent = getByText("Supplies");
+    expect(gameScreenComponent).toBeInTheDocument();
   });
 });
