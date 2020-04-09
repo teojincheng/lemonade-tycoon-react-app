@@ -2,7 +2,7 @@
 
 Lemonade Tycoon is a business simulation game originally released in year 2002.
 
-Below is a description of the process that takes place in the clone version:
+Below is a description of the process that takes place in this clone version:
 
 * The game has two game days
 * At the start of each day: the player determines how much of the raw ingredients he/she wants to buy.
