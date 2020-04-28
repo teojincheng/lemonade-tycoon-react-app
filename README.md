@@ -17,6 +17,7 @@ Below is a description of the process that takes place in this clone version:
 * Player determines the selling price for each cup of lemonade
 * Game day is started and a queue of customers buy the lemonade.
 
+It relies on an back end API and database hosted on Heroku
 
 ### npm packages used: 
 
