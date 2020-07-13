@@ -31,19 +31,19 @@ class GameScreen extends React.Component {
       costPerCup: 0,
       dayStarted: false,
       profit: 0,
-      day: 1
+      day: 1,
     };
   }
 
-  updateSelection = navSelection => {
+  updateSelection = (navSelection) => {
     this.setState({
-      navigationSelection: navSelection
+      navigationSelection: navSelection,
     });
   };
 
   updateStartTime = () => {
     this.setState({
-      startTime: new Date()
+      startTime: new Date(),
     });
   };
 
@@ -64,12 +64,12 @@ class GameScreen extends React.Component {
     let Customer = copyOfCustomerArray.pop();
     this.setState({
       customerQueue: this.state.customerQueue.concat(Customer),
-      arrOfCustomer: copyOfCustomerArray
+      arrOfCustomer: copyOfCustomerArray,
     });
   };
 
   //when axios call to api is done, call this function to set the image of every customer
-  setPictureOfCustomer = arrOfImageData => {
+  setPictureOfCustomer = (arrOfImageData) => {
     const customers = [];
     for (let i = 0; i < NUM_CUSTOMERS; i++) {
       const newCustomer = new Customer();
@@ -78,11 +78,11 @@ class GameScreen extends React.Component {
     }
 
     this.setState({
-      arrOfCustomer: customers
+      arrOfCustomer: customers,
     });
   };
 
-  calculateTotalCost = data => {
+  calculateTotalCost = (data) => {
     let costOfLemon = Constant.BUYING_PRICE_ONE_LEMON * data[0].amount;
     let costOfSugar = Constant.BUYING_PRICE_ONE_CUP_SUGAR * data[1].amount;
     let costOfIce = Constant.BUYING_PRICE_ONE_ICE_CUBE * data[2].amount;
@@ -102,7 +102,7 @@ class GameScreen extends React.Component {
   };
 
   getSuppliesDataFromDatabase = () => {
-    AxiosInstance.get("/supplies").then(response => {
+    AxiosInstance.get("/supplies").then((response) => {
       if (response.data.length === 3) {
         const costOfLemon =
           Constant.BUYING_PRICE_ONE_LEMON * response.data[0].qty;
@@ -119,7 +119,7 @@ class GameScreen extends React.Component {
           supplyOfSugar: response.data[1].qty,
           supplyOfIce: response.data[2].qty,
           budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
-          totalCostOfSupplies: totalCost
+          totalCostOfSupplies: totalCost,
         });
       }
       this.updateSelection("recipe");
@@ -127,7 +127,7 @@ class GameScreen extends React.Component {
   };
 
   initialiseCustomers = () => {
-    AxiosInstance.get("/customers").then(response => {
+    AxiosInstance.get("/customers").then((response) => {
       this.setPictureOfCustomer(response);
     });
   };
@@ -143,7 +143,7 @@ class GameScreen extends React.Component {
   }
 
   displayCustomerQueue = () => {
-    const arrToDisplay = this.state.customerQueue.map(customer => (
+    const arrToDisplay = this.state.customerQueue.map((customer) => (
       <div>{customer.displayCustomerImage()}</div>
     ));
     return arrToDisplay;
@@ -162,7 +162,7 @@ class GameScreen extends React.Component {
 
   //after user has input the supplies to buy for the day, get data from the
   //children component
-  getDataFromSuppliesList = data => {
+  getDataFromSuppliesList = (data) => {
     let inputValidationMsg = "";
     let amountOfLemon = data[0].amount;
     let amountOfSugar = data[1].amount;
@@ -209,7 +209,7 @@ class GameScreen extends React.Component {
         supplyOfSugar: this.state.supplyOfSugar + amountOfSugar,
         supplyOfIce: this.state.supplyOfIce + amountOfIce,
         budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
-        totalCostOfSupplies: totalCost
+        totalCostOfSupplies: totalCost,
       });
       this.updateSelection("recipe");
     } else {
@@ -229,14 +229,14 @@ class GameScreen extends React.Component {
         supplyOfSugar: amountOfSugar,
         supplyOfIce: amountOfIce,
         budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
-        totalCostOfSupplies: totalCost
+        totalCostOfSupplies: totalCost,
       });
       this.updateSelection("recipe");
     }
   };
 
   //after user has input the recipe for each cup. get data from children component
-  getDataFromRecipeList = data => {
+  getDataFromRecipeList = (data) => {
     let amountOfLemon = data[0].amount;
     let amountOfSugar = data[1].amount;
     let amountOfIce = data[2].amount;
@@ -285,17 +285,17 @@ class GameScreen extends React.Component {
       numberOfCupsInStore: this.state.supplyOfLemon / amountOfLemon,
       costPerCup:
         this.state.totalCostOfSupplies /
-        (this.state.supplyOfLemon / amountOfLemon)
+        (this.state.supplyOfLemon / amountOfLemon),
     });
 
     this.updateSelection("marketing");
   };
 
   //after user has input the selling price for a cup, get the data from the children component
-  getSellingPrice = userInput => {
+  getSellingPrice = (userInput) => {
     this.setState({
       sellingPricePerCup: userInput,
-      navigationSelection: "startDay"
+      navigationSelection: "startDay",
     });
     document.getElementById("start-button").style.visibility = "visible";
     document.getElementsByClassName("profit-fields")[0].style.visibility =
@@ -309,7 +309,7 @@ class GameScreen extends React.Component {
     this.setState({
       supplyOfLemon: this.state.supplyOfLemon - this.state.recipeOfLemon,
       supplyOfIce: this.state.supplyOfIce - this.state.recipeOfIce,
-      supplyOfSugar: this.state.supplyOfSugar - this.state.recipeOfSugar
+      supplyOfSugar: this.state.supplyOfSugar - this.state.recipeOfSugar,
     });
   };
 
@@ -333,7 +333,7 @@ class GameScreen extends React.Component {
       recipeOfLemon: 0,
       sellingPricePerCup: 0,
       totalCostOfSupplies: 0,
-      day: this.state.day + 1
+      day: this.state.day + 1,
     });
   };
 
@@ -341,12 +341,12 @@ class GameScreen extends React.Component {
     this.resetGameStatesForNewDay();
 
     this.setState({
-      navigationSelection: "supplies"
+      navigationSelection: "supplies",
     });
     document.getElementById("customer-queue").style.display = "none";
   };
   //
-  removeCustomerFromQueue = profitOfOneSale => {
+  removeCustomerFromQueue = (profitOfOneSale) => {
     let copyOfCustomerQueue = [...this.state.customerQueue];
     // condition when a game day has ended
     if (copyOfCustomerQueue.length === 0) {
@@ -360,12 +360,12 @@ class GameScreen extends React.Component {
         AxiosInstance.delete("/supplies");
 
         AxiosInstance.get("/statistics")
-          .then(function(response) {
+          .then(function (response) {
             // handle success
 
             let message = "";
             let sortedResultArr = [];
-            sortedResultArr = response.data.sort(function(a, b) {
+            sortedResultArr = response.data.sort(function (a, b) {
               return a._id - b._id;
             });
             for (let i = 0; i < sortedResultArr.length; i++) {
@@ -375,12 +375,11 @@ class GameScreen extends React.Component {
                 " Profit : " +
                 sortedResultArr[i].profitPerCup.toFixed(2);
             }
+            AxiosInstance.delete("/statistics");
             alert(message);
             window.location.reload();
-
-            AxiosInstance.delete("/statistics");
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // handle error
             console.log(error);
           });
@@ -397,7 +396,7 @@ class GameScreen extends React.Component {
       ) {
         AxiosInstance.delete("/supplies")
           .then(this.functionForResettingStates())
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       } else {
@@ -410,7 +409,7 @@ class GameScreen extends React.Component {
     if (this.state.numberOfCupsInStore === 0) {
       clearInterval(this.timerRemoveCustomer);
       this.setState({
-        customerQueue: []
+        customerQueue: [],
       });
       this.initialiseCustomers();
       if (
@@ -420,7 +419,7 @@ class GameScreen extends React.Component {
       ) {
         AxiosInstance.delete("/supplies")
           .then(this.functionForResettingStates())
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       } else {
@@ -435,7 +434,7 @@ class GameScreen extends React.Component {
     this.setState({
       customerQueue: copyOfCustomerQueue,
       profit: profitOfOneSale,
-      numberOfCupsInStore: this.state.numberOfCupsInStore - 1
+      numberOfCupsInStore: this.state.numberOfCupsInStore - 1,
     });
 
     AxiosInstance.post("/statistics", this.constructDayStatObj());
@@ -450,7 +449,7 @@ class GameScreen extends React.Component {
   //after user has started the day, add customers into the queue
   AddCustomerPeriodically = () => {
     this.setState({
-      navigationSelection: "dayStarted"
+      navigationSelection: "dayStarted",
     });
     document.getElementById("start-button").style.visibility = "hidden";
     document.getElementById("customer-queue").style.display = "block";
