@@ -375,9 +375,10 @@ class GameScreen extends React.Component {
                 " Profit : " +
                 sortedResultArr[i].profitPerCup.toFixed(2);
             }
-            AxiosInstance.delete("/statistics");
-            alert(message);
-            window.location.reload();
+            AxiosInstance.delete("/statistics").then(function () {
+              alert(message);
+              window.location.reload();
+            });
           })
           .catch(function (error) {
             // handle error
