@@ -134,7 +134,7 @@ class GameScreen extends React.Component {
 
   componentDidMount() {
     this.initialiseCustomers();
-    this.getSuppliesDataFromDatabase();
+    //this.getSuppliesDataFromDatabase();
   }
 
   componentWillUnmount() {
@@ -202,7 +202,7 @@ class GameScreen extends React.Component {
 
       const suppliesArrToPatch = [lemonSupplyObj, sugarSupplyObj, iceSupplyObj];
 
-      AxiosInstance.patch("/supplies", suppliesArrToPatch);
+      //AxiosInstance.patch("/supplies", suppliesArrToPatch);
 
       this.setState({
         supplyOfLemon: this.state.supplyOfLemon + amountOfLemon,
@@ -222,7 +222,7 @@ class GameScreen extends React.Component {
         suppliesArrToPost.push(supplyObj);
       }
 
-      AxiosInstance.post("/supplies", suppliesArrToPost);
+      //AxiosInstance.post("/supplies", suppliesArrToPost);
 
       this.setState({
         supplyOfLemon: amountOfLemon,
@@ -272,10 +272,10 @@ class GameScreen extends React.Component {
       recipeObj.name = data[i].name;
       recipeObj.qty = data[i].amount;
 
-      arrOfPostPromises.push(AxiosInstance.post("/recipes", recipeObj));
+      //arrOfPostPromises.push(AxiosInstance.post("/recipes", recipeObj));
     }
 
-    Promise.all(arrOfPostPromises).then();
+    //Promise.all(arrOfPostPromises).then();
 
     this.setState({
       recipeOfLemon: data[0].amount,
@@ -353,12 +353,13 @@ class GameScreen extends React.Component {
       clearInterval(this.timerRemoveCustomer);
 
       //remove data from database.
-      AxiosInstance.delete("/recipes");
+      //AxiosInstance.delete("/recipes");
 
       //game day has ended and we are at the second game day.
       if (this.state.day === 2) {
-        AxiosInstance.delete("/supplies");
+        //AxiosInstance.delete("/supplies");
 
+        /*
         AxiosInstance.get("/statistics")
           .then(function (response) {
             // handle success
@@ -384,12 +385,16 @@ class GameScreen extends React.Component {
             // handle error
             console.log(error);
           });
+          */
 
+        window.location.reload();
         return;
       }
 
       //start a new day
       this.initialiseCustomers();
+      this.functionForResettingStates();
+      /*
       if (
         this.state.supplyOfIce === 0 &&
         this.state.supplyOfSugar === 0 &&
@@ -403,6 +408,7 @@ class GameScreen extends React.Component {
       } else {
         this.functionForResettingStates();
       }
+      */
       return;
     }
 
@@ -413,6 +419,8 @@ class GameScreen extends React.Component {
         customerQueue: [],
       });
       this.initialiseCustomers();
+      this.functionForResettingStates();
+      /*
       if (
         this.state.supplyOfIce === 0 &&
         this.state.supplyOfSugar === 0 &&
@@ -425,7 +433,8 @@ class GameScreen extends React.Component {
           });
       } else {
         this.functionForResettingStates();
-      }
+      } 
+      */
       return;
     }
 
@@ -438,7 +447,7 @@ class GameScreen extends React.Component {
       numberOfCupsInStore: this.state.numberOfCupsInStore - 1,
     });
 
-    AxiosInstance.post("/statistics", this.constructDayStatObj());
+    //AxiosInstance.post("/statistics", this.constructDayStatObj());
   };
 
   calculateProfitOfOneSale = () => {
