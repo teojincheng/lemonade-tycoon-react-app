@@ -17,6 +17,7 @@ class GameScreen extends React.Component {
       elapsedTime: 0,
       arrOfCustomer: [],
       customerQueue: [],
+      arrOfStats: [],
       supplyOfLemon: 0,
       supplyOfSugar: 0,
       supplyOfIce: 0,
@@ -323,6 +324,20 @@ class GameScreen extends React.Component {
     return dayStatObj;
   };
 
+  caculateProfitPerDay = (statsArr, arrOfCupsSold) => {
+    const sumReducer = (accumulator, currentValue) =>
+      accumulator + currentValue;
+
+    const totalCupsSold = arrOfCupsSold.reduce(sumReducer);
+
+    let profitPerCup = statsArr[0].sellingPricePerCup - statsArr[0].costPerCup;
+    let totalProfit = profitPerCup * totalCupsSold;
+
+    return (
+      "Day " + statsArr[0].dayNumber + " Profit: " + totalProfit.toFixed(2)
+    );
+  };
+
   resetGameStatesForNewDay = () => {
     this.setState({
       costPerCup: 0,
@@ -356,7 +371,46 @@ class GameScreen extends React.Component {
       //AxiosInstance.delete("/recipes");
 
       //game day has ended and we are at the second game day.
+      //let statsString = "";
       if (this.state.day === 2) {
+        const dayOneStats = this.state.arrOfStats.filter((statObj) => {
+          return statObj.dayNumber == 1;
+        });
+
+        const dayOneCupsPerTransaction = dayOneStats.map(
+          (statObj) => statObj.cupsSold
+        );
+
+        let dayOneProfit = this.caculateProfitPerDay(
+          dayOneStats,
+          dayOneCupsPerTransaction
+        );
+
+        const dayTwoStats = this.state.arrOfStats.filter((statObj) => {
+          return statObj.dayNumber == 2;
+        });
+
+        const dayTwoCupsPerTransaction = dayTwoStats.map(
+          (statObj) => statObj.cupsSold
+        );
+
+        let dayTwoProfit = this.caculateProfitPerDay(
+          dayTwoStats,
+          dayTwoCupsPerTransaction
+        );
+        /*
+        for (let i = 0; i < this.state.arrOfStats.length; i++) {
+          let profitPerCup =
+            this.state.arrOfStats[i].sellingPricePerCup -
+            this.state.arrOfStats[i].costPerCup;
+          let profitPerDay = profitPerCup * this.state.arrOfStats[i].cupsSold;
+          statsString +=
+            " Day " +
+            this.state.arrOfStats[i].dayNumber +
+            " Profit: " +
+            profitPerDay;
+        }
+        */
         //AxiosInstance.delete("/supplies");
 
         /*
@@ -386,7 +440,7 @@ class GameScreen extends React.Component {
             console.log(error);
           });
           */
-
+        alert(dayOneProfit + " " + dayTwoProfit);
         window.location.reload();
         return;
       }
@@ -447,6 +501,10 @@ class GameScreen extends React.Component {
       numberOfCupsInStore: this.state.numberOfCupsInStore - 1,
     });
 
+    //this.state.arrOfStats.push(this.constructDayStatObj);
+    this.setState({
+      arrOfStats: this.state.arrOfStats.concat(this.constructDayStatObj()),
+    });
     //AxiosInstance.post("/statistics", this.constructDayStatObj());
   };
 
