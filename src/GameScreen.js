@@ -6,6 +6,7 @@ import AxiosInstance from "./AxiosInstance";
 import "./GameScreen.css";
 import Constant from "./Constant";
 import SelectionList from "./SelectionList";
+import ValidationFunc from "./InputValidation";
 const NUM_CUSTOMERS = 2;
 
 class GameScreen extends React.Component {
@@ -88,7 +89,7 @@ class GameScreen extends React.Component {
     let costOfSugar = Constant.BUYING_PRICE_ONE_CUP_SUGAR * data[1].amount;
     let costOfIce = Constant.BUYING_PRICE_ONE_ICE_CUBE * data[2].amount;
     let totalCost = parseFloat(costOfLemon + costOfSugar + costOfIce).toFixed(
-      2
+      Constant.NUM_DECIMAL_PLACE
     );
 
     return totalCost;
@@ -113,13 +114,15 @@ class GameScreen extends React.Component {
           Constant.BUYING_PRICE_ONE_ICE_CUBE * response.data[2].qty;
         const totalCost = parseFloat(
           costOfLemon + costOfSugar + costOfIce
-        ).toFixed(2);
+        ).toFixed(Constant.NUM_DECIMAL_PLACE);
 
         this.setState({
           supplyOfLemon: response.data[0].qty,
           supplyOfSugar: response.data[1].qty,
           supplyOfIce: response.data[2].qty,
-          budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+          budget: parseFloat(
+            (this.state.budget - totalCost).toFixed(Constant.NUM_DECIMAL_PLACE)
+          ),
           totalCostOfSupplies: totalCost,
         });
       }
@@ -163,11 +166,13 @@ class GameScreen extends React.Component {
 
   //after user has input the supplies to buy for the day, get data from the
   //children component
+
   getDataFromSuppliesList = (data) => {
     let inputValidationMsg = "";
     let amountOfLemon = data[0].amount;
     let amountOfSugar = data[1].amount;
     let amountOfIce = data[2].amount;
+
     if (amountOfLemon === 0) {
       inputValidationMsg += "You must buy at least 1 lemon";
     } else if (amountOfSugar === 0) {
@@ -209,7 +214,9 @@ class GameScreen extends React.Component {
         supplyOfLemon: this.state.supplyOfLemon + amountOfLemon,
         supplyOfSugar: this.state.supplyOfSugar + amountOfSugar,
         supplyOfIce: this.state.supplyOfIce + amountOfIce,
-        budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+        budget: parseFloat(
+          (this.state.budget - totalCost).toFixed(Constant.NUM_DECIMAL_PLACE)
+        ),
         totalCostOfSupplies: totalCost,
       });
       this.updateSelection("recipe");
@@ -229,7 +236,9 @@ class GameScreen extends React.Component {
         supplyOfLemon: amountOfLemon,
         supplyOfSugar: amountOfSugar,
         supplyOfIce: amountOfIce,
-        budget: parseFloat((this.state.budget - totalCost).toFixed(2)),
+        budget: parseFloat(
+          (this.state.budget - totalCost).toFixed(Constant.NUM_DECIMAL_PLACE)
+        ),
         totalCostOfSupplies: totalCost,
       });
       this.updateSelection("recipe");
@@ -253,6 +262,23 @@ class GameScreen extends React.Component {
 
     let message = "";
 
+    message += ValidationFunc.validateRecipe(
+      amountOfLemon,
+      this.state.supplyOfLemon,
+      "lemon"
+    );
+    message += ValidationFunc.validateRecipe(
+      amountOfSugar,
+      this.state.supplyOfSugar,
+      "sugar"
+    );
+    message += ValidationFunc.validateRecipe(
+      amountOfIce,
+      this.state.supplyOfIce,
+      "ice"
+    );
+
+    /*
     if (amountOfLemon > this.state.supplyOfLemon) {
       message += "You cannot use more lemon than what you have";
     } else if (amountOfSugar > this.state.supplyOfSugar) {
@@ -260,6 +286,7 @@ class GameScreen extends React.Component {
     } else if (amountOfIce > this.state.supplyOfIce) {
       message += "You cannot use more ice than what you have";
     }
+    */
 
     if (message.length !== 0) {
       alert(message);
@@ -334,7 +361,10 @@ class GameScreen extends React.Component {
     let totalProfit = profitPerCup * totalCupsSold;
 
     return (
-      "Day " + statsArr[0].dayNumber + " Profit: " + totalProfit.toFixed(2)
+      "Day " +
+      statsArr[0].dayNumber +
+      " Profit: " +
+      totalProfit.toFixed(Constant.NUM_DECIMAL_PLACE)
     );
   };
 
@@ -511,7 +541,7 @@ class GameScreen extends React.Component {
   calculateProfitOfOneSale = () => {
     let profitOfOneSale = this.state.sellingPricePerCup - this.state.costPerCup;
     let profitUpdated = this.state.profit + profitOfOneSale;
-    return parseFloat(profitUpdated.toFixed(2));
+    return parseFloat(profitUpdated.toFixed(Constant.NUM_DECIMAL_PLACE));
   };
 
   //after user has started the day, add customers into the queue
@@ -524,7 +554,7 @@ class GameScreen extends React.Component {
     this.timerID = setInterval(() => this.addCustomerIntoQueue(), 1000);
     this.timerRemoveCustomer = setInterval(
       () => this.removeCustomerFromQueue(this.calculateProfitOfOneSale()),
-      5000
+      Constant.FREQ_REMOVE_CUSTOMER
     );
   };
 
@@ -596,7 +626,7 @@ class GameScreen extends React.Component {
           <span>{this.state.supplyOfIce}</span>
           <span className="empty-space"></span>
           <span>Budget: </span>
-          <span>${this.state.budget.toFixed(2)}</span>
+          <span>${this.state.budget.toFixed(Constant.NUM_DECIMAL_PLACE)}</span>
           <span className="empty-space"></span>
           <span className="profit-fields">Profit: </span>
           <span className="profit-fields">$ {this.state.profit}</span>
